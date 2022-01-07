@@ -39,14 +39,14 @@ const Home: NextPage = () => {
           flexDir="column"
           alignItems="center"
         >
-          <Text
+          <Box
             fontSize={{ base: "6xl", md: "6xl", lg: "7xl", xl: "8xl" }}
             mt="10"
             textAlign="center"
             fontWeight="black"
             display="flex"
             justifyContent="center"
-            experimental_spaceX={{ md: "6" }}
+            experimental_spaceX={{ md: "7" }}
             experimental_spaceY={{ base: "-7", md: "0" }}
             flexDir={{ base: "column", md: "row" }}
           >
@@ -72,7 +72,7 @@ const Home: NextPage = () => {
               />
             </Text>
             <Text>trust</Text>
-          </Text>
+          </Box>
           <Text
             px="4"
             color="blackAlpha.700"
@@ -128,10 +128,12 @@ const Home: NextPage = () => {
               <Text>Unlock</Text>
             </Flex>
           </Flex>
-          <Text color="blackAlpha.500" mt="2">
-            Not sure how it works?{" "}
+          <Box mt="2">
+            <Text display="inline" color="blackAlpha.500">
+              Not sure how it works?
+            </Text>{" "}
             <Link color="blackAlpha.600">Get started</Link>
-          </Text>
+          </Box>
           <AspectRatio ratio={16 / 9} w="full" maxW="800px" mt="10">
             <Image src="assets/art.png" rounded="xl" />
           </AspectRatio>

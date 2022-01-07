@@ -120,19 +120,14 @@ export default function Navigation() {
       >
         <Flex alignItems="center" experimental_spaceX="3">
           <Image src="assets/vault3_logo.svg" alt="vault3" w="9" h="9" />
-          <Text
-            fontSize="2xl"
-            color="blackAlpha.900"
-            display="flex"
-            alignItems="center"
-            fontFamily="heading"
-            fontWeight="extrabold"
-          >
-            vault{" "}
-            <Text ml="0.5" fontFamily="body" fontWeight="medium" mb="0.5">
+          <Flex fontSize="2xl" color="blackAlpha.900" alignItems="center">
+            <Text fontFamily="heading" fontWeight="extrabold">
+              vault{" "}
+            </Text>
+            <Text ml="0.5" fontFamily="body" fontWeight="medium" mb="1">
               3
             </Text>
-          </Text>
+          </Flex>
         </Flex>
         {!user.address ? (
           <Button

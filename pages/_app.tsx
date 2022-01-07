@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ThirdwebProvider } from "@3rdweb/react";
+import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 import { ChakraProvider } from "@chakra-ui/react";
 import { UserProvider } from "../utils/providers/User.provider";
 import theme from "../styles/theme.chakra";
@@ -31,7 +31,7 @@ function App({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThirdwebProvider
+    <ThirdwebWeb3Provider
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
@@ -42,7 +42,7 @@ function App({ Component, pageProps }: AppProps) {
           </PageWrapper>
         </UserProvider>
       </ChakraProvider>
-    </ThirdwebProvider>
+    </ThirdwebWeb3Provider>
   );
 }
 
