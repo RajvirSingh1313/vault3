@@ -61,7 +61,7 @@ const Home: NextPage = () => {
           setImageKeyModal(true);
           setShowNewKeyModal(false);
         }}
-        onClick={() => {
+        onClose={() => {
           setShowNewKeyModal(false);
         }}
       />
