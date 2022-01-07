@@ -1,14 +1,40 @@
 import type { NextPage } from "next";
-import { Box, Text, Flex, Image, AspectRatio, Link } from "@chakra-ui/react";
-import { FaImage, FaUnlock } from "react-icons/fa";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  AspectRatio,
+  Link,
+  Input,
+} from "@chakra-ui/react";
+import { FaImage, FaLock, FaUnlock } from "react-icons/fa";
 import Typed from "react-typed";
 import Navigation from "../components/Navigation/Navigation.component";
 import Art from "../assets/art.png";
 import UIBlur1 from "../assets/ui_blur_1.png";
 import UIBlur2 from "../assets/ui_blur_2.png";
 import PageWrapper from "../components/Wrappers/PageWrapper.wrapper";
+import Dropzone, { useDropzone } from "react-dropzone";
+import { useCallback, useState } from "react";
+import getBase64 from "../utils/helpers/base64";
 
 const Home: NextPage = () => {
+  const [imageKey, setImageKey] = useState<any>(undefined);
+
+  const onDrop = useCallback((acceptedFiles) => {
+    const imageData = acceptedFiles[0];
+    setImageKey({ fileData: imageData });
+    getBase64(imageData)
+      .then((data) => {
+        setImageKey({ byteData: data, fileData: imageData });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <>
       <Image
@@ -84,22 +110,30 @@ const Home: NextPage = () => {
             Secure your passwords, files, pizzas and much more just in a
             ka-chow!
           </Text>
+
           <Flex
             maxW="lg"
-            color="blackAlpha.500"
+            mx="auto"
             fontSize={{ lg: "lg" }}
             justify="space-between"
           >
+            <input
+              style={{ display: "none" }}
+              {...getInputProps()}
+              type="file"
+              accept="image/*"
+            />
             <Flex
+              {...getRootProps()}
               border="dashed 2px"
               borderRight="0px"
               transitionDuration="200ms"
               _hover={{ borderColor: "brand.blue" }}
-              borderColor="blackAlpha.300"
+              borderColor={isDragActive ? "brand.blue" : "blackAlpha.300"}
               bg="blackAlpha.100"
               py={{ base: "3", lg: "4" }}
               px={{ base: "5", lg: "6" }}
-              pr="2"
+              pr={{ base: "2", md: "6" }}
               alignItems="center"
               roundedLeft="2xl"
               cursor="pointer"
@@ -109,7 +143,23 @@ const Home: NextPage = () => {
               <Box color="brand.blue">
                 <FaImage size="34px" />
               </Box>
-              <Text noOfLines={1}>Drop your image key</Text>
+              {imageKey ? (
+                <Text
+                  noOfLines={1}
+                  wordBreak="break-all"
+                  color="blackAlpha.800"
+                >
+                  {imageKey?.fileData?.name}
+                </Text>
+              ) : (
+                <Text
+                  noOfLines={1}
+                  wordBreak="break-all"
+                  color="blackAlpha.500"
+                >
+                  Drop your image key
+                </Text>
+              )}
             </Flex>
 
             <Flex
@@ -124,10 +174,11 @@ const Home: NextPage = () => {
               fontWeight="bold"
               roundedRight="2xl"
             >
-              <FaUnlock />
+              {imageKey?.byteData ? <FaUnlock /> : <FaLock />}
               <Text>Unlock</Text>
             </Flex>
           </Flex>
+
           <Box mt="2">
             <Text display="inline" color="blackAlpha.500">
               Not sure how it works?
