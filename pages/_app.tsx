@@ -6,6 +6,10 @@ import { UserProvider } from "../utils/providers/User.provider";
 import theme from "../styles/theme.chakra";
 import "regenerator-runtime/runtime.js";
 import PageWrapper from "../components/Wrappers/PageWrapper.wrapper";
+import {
+  ImageKeyContext,
+  ImageKeyProvider,
+} from "../utils/providers/ImageKey.provider";
 
 function App({ Component, pageProps }: AppProps) {
   const supportedChainIds = [137];
@@ -38,7 +42,9 @@ function App({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme}>
         <UserProvider>
           <PageWrapper>
-            <Component {...pageProps} />
+            <ImageKeyProvider>
+              <Component {...pageProps} />
+            </ImageKeyProvider>
           </PageWrapper>
         </UserProvider>
       </ChakraProvider>

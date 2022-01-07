@@ -1,16 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   Flex,
   Image,
   Text,
   Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Menu,
   MenuButton,
@@ -21,19 +15,14 @@ import { FaSignOutAlt, FaWallet } from "react-icons/fa";
 import { useWeb3 } from "@3rdweb/hooks";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../utils/providers/User.provider";
+import WalletConnect from "../Modals/WalletConnect.modal";
 
 export default function Navigation() {
-  const { connectWallet, disconnectWallet } = useWeb3();
+  const { disconnectWallet } = useWeb3();
 
   const { user } = useContext(UserContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [topOfPage, setTopOfPage] = useState(true);
-
-  useEffect(() => {
-    if (user.address && isOpen) {
-      onClose();
-    }
-  }, [user.address, isOpen, onClose]);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -60,83 +49,7 @@ export default function Navigation() {
       borderColor={!topOfPage ? "gray.200" : "transparent"}
       justifyContent="center"
     >
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Flex alignItems="center" experimental_spaceX="2">
-              <Box color="brand.blue">
-                <FaWallet />
-              </Box>
-              <Text>Connect your wallet</Text>
-            </Flex>
-          </ModalHeader>
-          <ModalCloseButton _focus={{}} />
-          <ModalBody>
-            <Flex direction="column" experimental_spaceY="3">
-              <Button
-                bg="transparent"
-                _hover={{ transform: "translatey(-4px)" }}
-                _active={{}}
-                _focus={{}}
-                onClick={() => connectWallet("injected")}
-                leftIcon={
-                  <Image
-                    src="assets/metamask.webp"
-                    w="6"
-                    h="6"
-                    alt="metamask-logo"
-                  />
-                }
-              >
-                MetaMask
-              </Button>
-              <Button
-                bg="transparent"
-                _hover={{ transform: "translatey(-4px)" }}
-                _active={{}}
-                _focus={{}}
-                leftIcon={
-                  <Image
-                    src="assets/coinbase.png"
-                    w="6"
-                    h="6"
-                    alt="coinbase-logo"
-                  />
-                }
-                onClick={() => connectWallet("walletlink")}
-              >
-                Coinbase Wallet
-              </Button>
-              <Button
-                bg="transparent"
-                _hover={{ transform: "translatey(-4px)" }}
-                _active={{}}
-                _focus={{}}
-                leftIcon={
-                  <Image
-                    src="assets/walletconnect.svg"
-                    w="6"
-                    h="6"
-                    alt="walletconnect-logo"
-                  />
-                }
-                onClick={() => connectWallet("walletconnect")}
-              >
-                WalletConnect
-              </Button>
-            </Flex>
-          </ModalBody>
-          <ModalFooter>
-            <Image
-              src="assets/polygontext.svg"
-              w="20"
-              h="6"
-              alt="polygon-logo"
-            />
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <WalletConnect isOpen={isOpen} onClose={onClose} />
       <Flex
         justify="space-between"
         w="full"

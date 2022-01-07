@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../utils/providers/User.provider";
@@ -24,7 +25,7 @@ const PageWrapper: NextPage = ({ children }) => {
       address,
       chainId,
     });
-  }, [address, chainId, setUser]);
+  }, [address, chainId]);
   return (
     <Box bg="white" minH="100vh" color="brand.black">
       {isUnsupportedChainId && <SwitchNetwork />}

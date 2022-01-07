@@ -1,30 +1,47 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from "next";
-import {
-  Box,
-  Text,
-  Flex,
-  Image,
-  AspectRatio,
-  Link,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, Image, AspectRatio, Link } from "@chakra-ui/react";
 import { FaImage, FaLock, FaUnlock } from "react-icons/fa";
 import Typed from "react-typed";
 import Navigation from "../components/Navigation/Navigation.component";
-import Art from "../assets/art.png";
-import UIBlur1 from "../assets/ui_blur_1.png";
-import UIBlur2 from "../assets/ui_blur_2.png";
-import PageWrapper from "../components/Wrappers/PageWrapper.wrapper";
-import Dropzone, { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { LegacyRef, useCallback, useContext, useRef, useState } from "react";
 import getBase64 from "../utils/helpers/base64";
+import React from "react";
+import { AccessStatus } from "../types/accessStatus.enum";
+import NewImageKey from "../components/Modals/NewImageKey.modal";
+import { ImageKeyContext } from "../utils/providers/ImageKey.provider";
+import WalletConnect from "../components/Modals/WalletConnect.modal";
+import { UserContext } from "../utils/providers/User.provider";
+import CreateNewImageKey from "../components/Modals/CreateNewImageKey.modal";
 
 const Home: NextPage = () => {
-  const [imageKey, setImageKey] = useState<any>(undefined);
+  const { imageKey, setImageKey } = useContext(ImageKeyContext);
+  const { user } = useContext(UserContext);
+  const [accessStatus, setAccessStatus] = useState(AccessStatus.KEY_NOT_FOUND);
+  const [newImageKeyModal, setImageKeyModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showNewKeyModal, setShowNewKeyModal] = useState(false);
+  const DropzoneRef: LegacyRef<HTMLDivElement> | undefined = React.createRef();
+
+  const handleImageKeySubmit = () => {
+    if (user?.address?.length > 0) {
+      if (!imageKey?.byteData) {
+        DropzoneRef.current?.focus();
+      } else {
+        //check if address has that image data
+        if (accessStatus === AccessStatus.KEY_NOT_FOUND) {
+          setShowNewKeyModal(true);
+        }
+      }
+    } else {
+      setShowLoginModal(true);
+    }
+  };
 
   const onDrop = useCallback((acceptedFiles) => {
     const imageData = acceptedFiles[0];
-    setImageKey({ fileData: imageData });
+    setImageKey({ fileData: imageData, byteData: undefined });
     getBase64(imageData)
       .then((data) => {
         setImageKey({ byteData: data, fileData: imageData });
@@ -37,6 +54,26 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <CreateNewImageKey
+        isOpen={showNewKeyModal}
+        onButtonClick={() => {
+          setImageKeyModal(true);
+          setShowNewKeyModal(false);
+        }}
+        onClick={() => {
+          setShowNewKeyModal(false);
+        }}
+      />
+      <WalletConnect
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
+      <NewImageKey
+        isOpen={newImageKeyModal}
+        onClose={() => {
+          setImageKeyModal(false);
+        }}
+      />
       <Image
         src="assets/ui_blur_1.png"
         position="absolute"
@@ -131,6 +168,9 @@ const Home: NextPage = () => {
               borderRight="0px"
               transitionDuration="200ms"
               _hover={{ borderColor: "brand.blue" }}
+              _focus={{ borderColor: "brand.blue" }}
+              ref={DropzoneRef}
+              outline="none"
               borderColor={isDragActive ? "brand.blue" : "blackAlpha.300"}
               bg="blackAlpha.100"
               py={{ base: "3", lg: "4" }}
@@ -175,6 +215,7 @@ const Home: NextPage = () => {
               color="white"
               fontWeight="bold"
               roundedRight="2xl"
+              onClick={handleImageKeySubmit}
             >
               {imageKey?.byteData ? <FaUnlock /> : <FaLock />}
               <Text>Unlock</Text>
@@ -188,7 +229,7 @@ const Home: NextPage = () => {
             <Link color="blackAlpha.600">Get started</Link>
           </Box>
           <AspectRatio ratio={16 / 9} w="full" maxW="800px" mt="10">
-            <Image src="assets/art.png" rounded="xl"  alt="hero-banner" />
+            <Image src="assets/art.png" rounded="xl" alt="hero-banner" />
           </AspectRatio>
         </Box>
       </Box>
