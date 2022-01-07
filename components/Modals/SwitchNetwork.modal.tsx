@@ -65,7 +65,7 @@ export default function SwitchNetwork({ onResolve }: any) {
           </Flex>
         </ModalBody>
         <ModalFooter>
-          <Image src="assets/polygontext.svg" w="20" h="6" />
+          <Image src="assets/polygontext.svg" w="20" h="6" alt="polygon-logo" />
         </ModalFooter>
       </ModalContent>
     </Modal>

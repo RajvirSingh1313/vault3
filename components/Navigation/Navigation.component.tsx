@@ -33,7 +33,7 @@ export default function Navigation() {
     if (user.address && isOpen) {
       onClose();
     }
-  }, [user.address]);
+  }, [user.address, isOpen, onClose]);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -80,7 +80,14 @@ export default function Navigation() {
                 _active={{}}
                 _focus={{}}
                 onClick={() => connectWallet("injected")}
-                leftIcon={<Image src="assets/metamask.webp" w="6" h="6" />}
+                leftIcon={
+                  <Image
+                    src="assets/metamask.webp"
+                    w="6"
+                    h="6"
+                    alt="metamask-logo"
+                  />
+                }
               >
                 MetaMask
               </Button>
@@ -89,7 +96,14 @@ export default function Navigation() {
                 _hover={{ transform: "translatey(-4px)" }}
                 _active={{}}
                 _focus={{}}
-                leftIcon={<Image src="assets/coinbase.png" w="6" h="6" />}
+                leftIcon={
+                  <Image
+                    src="assets/coinbase.png"
+                    w="6"
+                    h="6"
+                    alt="coinbase-logo"
+                  />
+                }
                 onClick={() => connectWallet("walletlink")}
               >
                 Coinbase Wallet
@@ -99,7 +113,14 @@ export default function Navigation() {
                 _hover={{ transform: "translatey(-4px)" }}
                 _active={{}}
                 _focus={{}}
-                leftIcon={<Image src="assets/walletconnect.svg" w="6" h="6" />}
+                leftIcon={
+                  <Image
+                    src="assets/walletconnect.svg"
+                    w="6"
+                    h="6"
+                    alt="walletconnect-logo"
+                  />
+                }
                 onClick={() => connectWallet("walletconnect")}
               >
                 WalletConnect
@@ -107,7 +128,12 @@ export default function Navigation() {
             </Flex>
           </ModalBody>
           <ModalFooter>
-            <Image src="assets/polygontext.svg" w="20" h="6" />
+            <Image
+              src="assets/polygontext.svg"
+              w="20"
+              h="6"
+              alt="polygon-logo"
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -157,9 +183,9 @@ export default function Navigation() {
                 }
               >
                 {user.chainId === 137 ? (
-                  <Image src="assets/matic.png" w="6" h="6" />
+                  <Image src="assets/matic.png" w="6" h="6" alt="matic-logo" />
                 ) : (
-                  <Image src="assets/eth.png" w="6" h="6" />
+                  <Image src="assets/eth.png" w="6" h="6" alt="eth-logo" />
                 )}
                 <Text maxW="100px" isTruncated={true} fontWeight="medium">
                   {user.address}
