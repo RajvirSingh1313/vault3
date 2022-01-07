@@ -30,6 +30,7 @@ const Home: NextPage = () => {
         DropzoneRef.current?.focus();
       } else {
         //check if address has that image data
+        setAccessStatus(AccessStatus.KEY_NOT_FOUND);
         if (accessStatus === AccessStatus.KEY_NOT_FOUND) {
           setShowNewKeyModal(true);
         }

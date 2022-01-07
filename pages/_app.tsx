@@ -6,13 +6,11 @@ import { UserProvider } from "../utils/providers/User.provider";
 import theme from "../styles/theme.chakra";
 import "regenerator-runtime/runtime.js";
 import PageWrapper from "../components/Wrappers/PageWrapper.wrapper";
-import {
-  ImageKeyContext,
-  ImageKeyProvider,
-} from "../utils/providers/ImageKey.provider";
+import { ImageKeyProvider } from "../utils/providers/ImageKey.provider";
+import config from "../utils/helpers/config";
 
 function App({ Component, pageProps }: AppProps) {
-  const supportedChainIds = [137];
+  const supportedChainIds = [config.chainId];
   /**
    * Include the connectors you want to support
    * injected - MetaMask
@@ -24,7 +22,7 @@ function App({ Component, pageProps }: AppProps) {
     injected: {},
     magic: {
       apiKey: String(process.env.REACT_APP_MAGIC_KEY),
-      chainId: 137,
+      chainId: config.chainId,
     },
     walletconnect: {},
     walletlink: {

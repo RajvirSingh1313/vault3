@@ -14,6 +14,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { FaExchangeAlt, FaInfoCircle, FaWallet } from "react-icons/fa";
+import config from "../../utils/helpers/config";
 
 export default function SwitchNetwork({ onResolve }: any) {
   const { switchNetwork } = useSwitchNetwork();
@@ -55,7 +56,7 @@ export default function SwitchNetwork({ onResolve }: any) {
               _focus={{}}
               _active={{}}
               onClick={async () => {
-                await switchNetwork(137);
+                await switchNetwork(config.chainId);
               }}
               fontWeight="bold"
               bg="linear-gradient(289.29deg, #00E3D6 -76.18%, #3788FF 116.82%)"

@@ -1,45 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useSwitchNetwork, useWeb3 } from "@3rdweb/hooks";
 import {
   Button,
   Flex,
-  Image,
   Text,
   Box,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
-  Checkbox,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Spinner,
-  useTimeout,
 } from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import {
-  FaArrowRight,
-  FaCheck,
-  FaExchangeAlt,
-  FaImage,
-  FaInfoCircle,
-  FaKey,
-  FaLock,
-  FaUnlock,
-  FaWallet,
-} from "react-icons/fa";
-import ReactTyped from "react-typed";
-import getBase64 from "../../utils/helpers/base64";
-import { ImageKeyContext } from "../../utils/providers/ImageKey.provider";
-import { UserContext } from "../../utils/providers/User.provider";
+import React from "react";
+import { FaInfoCircle, FaKey, FaWallet } from "react-icons/fa";
 
 export default function CreateNewImageKey({
   isOpen,

@@ -15,7 +15,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { FaWallet } from "react-icons/fa";
 import { UserContext } from "../../utils/providers/User.provider";
 

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useSwitchNetwork } from "@3rdweb/hooks";
 import {
   Button,
   Flex,
@@ -14,27 +13,25 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Checkbox,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   Spinner,
-  useTimeout,
+  UnorderedList,
+  ListItem,
+  Divider,
 } from "@chakra-ui/react";
 import React, { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   FaArrowRight,
   FaCheck,
-  FaExchangeAlt,
   FaImage,
-  FaInfoCircle,
   FaKey,
   FaLock,
   FaUnlock,
-  FaWallet,
 } from "react-icons/fa";
 import ReactTyped from "react-typed";
 import getBase64 from "../../utils/helpers/base64";
@@ -286,20 +283,30 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     </Button>
                   </Flex>
                 </Box>
-                <Box color="red.400" px={{ md: "10" }} mt="4" fontSize="sm">
-                  <Text>- The image should be unique.</Text>
-                  <Text>
-                    - You should not share it with anyone unless you want
-                    someone to access your vault.
-                  </Text>
-                  <Text>
-                    - Use our key transfer protocol to restrict data loss which
+                <Divider filter="brightness(80%)" mt="5" />
+                <UnorderedList
+                  color="blue.500"
+                  px={{ md: "10" }}
+                  mt="5"
+                  fontSize="sm"
+                >
+                  <ListItem>
+                    <Text>
+                      The image should be unique. You cant change it afterwards
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    You should not share it with anyone unless you want someone
+                    to access your vault.
+                  </ListItem>
+                  <ListItem>
+                    Use our key transfer protocol to restrict data loss which
                     can cause account loss.
-                  </Text>
+                  </ListItem>
 
-                  <Text>
-                    - We promise we will never save your key on our server.
-                  </Text>
+                  <ListItem>
+                    We promise we will never save your key on our server.
+                  </ListItem>
                   <Checkbox
                     ref={rulesCheckboxRef}
                     color="black"
@@ -309,7 +316,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                   >
                     I&apos;ve read the rules
                   </Checkbox>
-                </Box>
+                </UnorderedList>
               </>
             )}
             {step === 2 && (
@@ -350,8 +357,8 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                 experimental_spaceY="6"
                 zIndex={2}
               >
-                <Flex alignItems="center" experimental_spaceX="2">
-                  <Box color="brand.blue">
+                <Flex alignItems="start" experimental_spaceX="3">
+                  <Box color="brand.blue" mt="1">
                     <FaCheck />
                   </Box>
                   <Text>

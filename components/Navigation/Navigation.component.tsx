@@ -16,6 +16,7 @@ import { useWeb3 } from "@3rdweb/hooks";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../utils/providers/User.provider";
 import WalletConnect from "../Modals/WalletConnect.modal";
+import config from "../../utils/helpers/config";
 
 export default function Navigation() {
   const { disconnectWallet } = useWeb3();
@@ -92,10 +93,10 @@ export default function Navigation() {
                 experimental_spaceX="2"
                 border="1px"
                 borderColor={
-                  user.chainId === 137 ? "blackAlpha.300" : "red.500"
+                  user.chainId === config.chainId ? "blackAlpha.300" : "red.500"
                 }
               >
-                {user.chainId === 137 ? (
+                {user.chainId === config.chainId ? (
                   <Image src="assets/matic.png" w="6" h="6" alt="matic-logo" />
                 ) : (
                   <Image src="assets/eth.png" w="6" h="6" alt="eth-logo" />
