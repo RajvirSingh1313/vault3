@@ -44,6 +44,7 @@ const Home: NextPage = () => {
         top="0"
         right="0"
         zIndex={2}
+        alt="ui-blur-one"
       />
       <Image
         src="assets/ui_blur_2.png"
@@ -52,6 +53,7 @@ const Home: NextPage = () => {
         top="20"
         left="0"
         zIndex={2}
+        alt="ui-blur-two"
       />
 
       <Box position="relative" zIndex={3}>
@@ -186,7 +188,7 @@ const Home: NextPage = () => {
             <Link color="blackAlpha.600">Get started</Link>
           </Box>
           <AspectRatio ratio={16 / 9} w="full" maxW="800px" mt="10">
-            <Image src="assets/art.png" rounded="xl" />
+            <Image src="assets/art.png" rounded="xl"  alt="hero-banner" />
           </AspectRatio>
         </Box>
       </Box>
