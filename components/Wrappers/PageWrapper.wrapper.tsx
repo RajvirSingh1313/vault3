@@ -12,6 +12,7 @@ const PageWrapper: NextPage = ({ children }) => {
   const { address, chainId, error } = useWeb3();
 
   useEffect(() => {
+    console.log(error);
     if (error?.name === "UnsupportedChainIdError") {
       setIsUnsupportedChainId(true);
     } else {
