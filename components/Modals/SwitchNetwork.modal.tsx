@@ -21,7 +21,7 @@ export default function SwitchNetwork({ onResolve }: any) {
   return (
     <Modal isOpen={true} onClose={() => {}}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent rounded={{ base: "none", md: "xl" }}>
         <ModalHeader>
           <Flex alignItems="center" experimental_spaceX="2">
             <Box color="brand.blue">
