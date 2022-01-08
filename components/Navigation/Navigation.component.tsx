@@ -17,6 +17,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../utils/providers/User.provider";
 import WalletConnect from "../Modals/WalletConnect.modal";
 import config from "../../utils/helpers/config";
+import Link from "next/link";
 
 export default function Navigation() {
   const { disconnectWallet } = useWeb3();
@@ -51,6 +52,7 @@ export default function Navigation() {
       justifyContent="center"
     >
       <WalletConnect isOpen={isOpen} onClose={onClose} />
+
       <Flex
         justify="space-between"
         w="full"
@@ -58,17 +60,19 @@ export default function Navigation() {
         p="3.5"
         maxW="6xl"
       >
-        <Flex alignItems="center" experimental_spaceX="3">
-          <Image src="assets/vault3_logo.svg" alt="vault3" w="9" h="9" />
-          <Flex fontSize="2xl" color="blackAlpha.900" alignItems="center">
-            <Text fontFamily="heading" fontWeight="extrabold">
-              vault{" "}
-            </Text>
-            <Text ml="0.5" fontFamily="body" fontWeight="medium" mb="1">
-              3
-            </Text>
+        <Link href="/">
+          <Flex alignItems="center" experimental_spaceX="3" cursor="pointer">
+            <Image src="assets/vault3_logo.svg" alt="vault3" w="9" h="9" />
+            <Flex fontSize="2xl" color="blackAlpha.900" alignItems="center">
+              <Text fontFamily="heading" fontWeight="extrabold">
+                vault{" "}
+              </Text>
+              <Text ml="0.5" fontFamily="body" fontWeight="medium" mb="1">
+                3
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
+        </Link>
         {!user.address ? (
           <Button
             onClick={onOpen}

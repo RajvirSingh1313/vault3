@@ -14,9 +14,10 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Badge,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
-import { FaWallet } from "react-icons/fa";
+import { FaChevronRight, FaWallet } from "react-icons/fa";
 import { UserContext } from "../../utils/providers/User.provider";
 
 export default function WalletConnect({ isOpen, onClose }: any) {
@@ -42,10 +43,11 @@ export default function WalletConnect({ isOpen, onClose }: any) {
         </ModalHeader>
         <ModalCloseButton _focus={{}} />
         <ModalBody>
-          <Flex direction="column" experimental_spaceY="3">
+          <Flex direction="column" experimental_spaceY="12" mt="4">
             <Button
               bg="transparent"
-              _hover={{ transform: "translatey(-4px)" }}
+              role="group"
+              _hover={{}}
               _active={{}}
               _focus={{}}
               onClick={() => {
@@ -55,53 +57,85 @@ export default function WalletConnect({ isOpen, onClose }: any) {
               leftIcon={
                 <Image
                   src="assets/metamask.webp"
-                  w="6"
-                  h="6"
+                  w="12"
+                  h="12"
+                  mr="4"
                   alt="metamask-logo"
                 />
               }
+              rightIcon={
+                <Box
+                  color="gray.600"
+                  ml="4"
+                  _groupHover={{ transform: "translateX(4px)" }}
+                  transitionDuration="200ms"
+                >
+                  <FaChevronRight />
+                </Box>
+              }
             >
-              MetaMask
+              <Flex direction="column" experimental_spaceY="2">
+                <Text>MetaMask</Text>
+                <Badge rounded="full" py="1" colorScheme="pink">
+                  Popular
+                </Badge>
+              </Flex>
             </Button>
             <Button
               bg="transparent"
-              _hover={{ transform: "translatey(-4px)" }}
+              _hover={{}}
               _active={{}}
               _focus={{}}
               leftIcon={
                 <Image
                   src="assets/coinbase.png"
-                  w="6"
-                  h="6"
+                  w="12"
+                  h="12"
+                  mr="4"
                   alt="coinbase-logo"
                 />
               }
-              onClick={() => {
-                connectWallet("walletlink");
-                localStorage.setItem("method", "walletlink");
-              }}
+              rightIcon={
+                <Box color="gray.600" ml="4">
+                  <FaChevronRight />
+                </Box>
+              }
+              opacity={0.7}
             >
-              Coinbase Wallet
+              <Flex direction="column" experimental_spaceY="2">
+                <Text>Coinbase Wallet</Text>
+                <Badge rounded="full" py="1" colorScheme="yellow">
+                  Coming soon
+                </Badge>
+              </Flex>
             </Button>
             <Button
               bg="transparent"
-              _hover={{ transform: "translatey(-4px)" }}
+              _hover={{}}
               _active={{}}
               _focus={{}}
               leftIcon={
                 <Image
                   src="assets/walletconnect.svg"
-                  w="6"
-                  h="6"
+                  w="12"
+                  mr="4"
+                  h="12"
                   alt="walletconnect-logo"
                 />
               }
-              onClick={() => {
-                connectWallet("walletconnect");
-                localStorage.setItem("method", "walletconnect");
-              }}
+              rightIcon={
+                <Box color="gray.600" ml="4">
+                  <FaChevronRight />
+                </Box>
+              }
+              opacity={0.7}
             >
-              WalletConnect
+              <Flex direction="column" experimental_spaceY="2">
+                <Text>WalletConnect</Text>
+                <Badge rounded="full" py="1" colorScheme="yellow">
+                  Coming soon
+                </Badge>
+              </Flex>
             </Button>
           </Flex>
         </ModalBody>

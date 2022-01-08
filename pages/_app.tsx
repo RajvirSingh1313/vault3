@@ -26,8 +26,8 @@ function App({ Component, pageProps }: AppProps) {
     },
     walletconnect: {},
     walletlink: {
-      appName: "vault3",
-      url: "https://thirdweb.com",
+      appName: "Vault3",
+      url: "https://vault3.vercel.app",
       darkMode: false,
     },
   };

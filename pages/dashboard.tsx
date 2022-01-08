@@ -1,7 +1,8 @@
 import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
-import { Spinner, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
+import Navigation from "../components/Navigation/Navigation.component";
 import { AccessStatus } from "../types/accessStatus.enum";
 import keyGetter from "../utils/helpers/keyGetter";
 import { UserContext } from "../utils/providers/User.provider";
@@ -40,7 +41,19 @@ const Dashboard: NextPage = () => {
     }
   }, [address]);
 
-  return <>{loading ? <Spinner /> : <Text>Dashboard</Text>}</>;
+  return (
+    <>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Box position="relative" zIndex={3}>
+            <Navigation />
+          </Box>
+        </>
+      )}
+    </>
+  );
 };
 
 export default Dashboard;
