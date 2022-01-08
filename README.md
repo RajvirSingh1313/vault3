@@ -1,15 +1,5 @@
-# Basic Sample Hardhat Project
+# How to test
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+1.  Run `npx hardhat run scripts/deploy.js --network localhost`, copy the address in the console
+2.  Go to utils/helpers/config.ts and change KeyRegistrar address to the address you copied
+3.  Run `npx hardhat node` copy one of the private key, and import it in metamask and start using the app, if u face errors while key uploading change the private key to another and try again

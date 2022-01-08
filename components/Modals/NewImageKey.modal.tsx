@@ -34,13 +34,18 @@ import {
   FaUnlock,
 } from "react-icons/fa";
 import ReactTyped from "react-typed";
+import { AccessStatus } from "../../types/accessStatus.enum";
 import getBase64 from "../../utils/helpers/base64";
+import keyGetter from "../../utils/helpers/keyGetter";
+import KeyMaker from "../../utils/helpers/keyMaker";
 import { ImageKeyContext } from "../../utils/providers/ImageKey.provider";
+import { UserContext } from "../../utils/providers/User.provider";
 
 export default function NewImageKey({ isOpen, onClose }: any) {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
   const [step, setStep] = useState(1);
   const [rulesChecked, setRulesChecked] = useState(false);
+  const { user } = useContext(UserContext);
 
   const rulesCheckboxRef: React.LegacyRef<HTMLInputElement> | undefined =
     React.createRef();
@@ -60,9 +65,10 @@ export default function NewImageKey({ isOpen, onClose }: any) {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleImageSubmit = () => {
+  const handleNewImageSubmit = async () => {
     if (imageKey?.byteData && rulesChecked) {
       setStep(2);
+      await KeyMaker(imageKey, user.address);
       setTimeout(() => {
         setStep(3);
       }, 6000);
@@ -70,6 +76,14 @@ export default function NewImageKey({ isOpen, onClose }: any) {
       dropZoneRef.current?.focus();
     } else if (!rulesChecked) {
       rulesCheckboxRef.current?.focus();
+    }
+  };
+
+  const handleImageKeySubmit = async () => {
+    const keyData = await keyGetter(imageKey, user.address);
+    if (keyData?.accessStatus === AccessStatus.KEY_MATCHED) {
+      sessionStorage.setItem("accessStatus", keyData.accessStatus);
+      window.location.href = "/dashboard";
     }
   };
 
@@ -277,7 +291,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                       color="white"
                       bg="brand.blue"
                       rightIcon={<FaArrowRight size="14px" />}
-                      onClick={handleImageSubmit}
+                      onClick={handleNewImageSubmit}
                     >
                       Next
                     </Button>
@@ -430,6 +444,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     color="white"
                     fontWeight="bold"
                     roundedRight="2xl"
+                    onClick={handleImageKeySubmit}
                   >
                     {imageKey?.byteData ? <FaUnlock /> : <FaLock />}
                     <Text>Unlock</Text>

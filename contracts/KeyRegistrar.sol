@@ -6,7 +6,8 @@ import "hardhat/console.sol";
 contract KeyRegistrar {
     mapping(address => string) private keys;
 
-    function getKey() external view returns (string memory) {
+    function getKey() public view returns (string memory) {
+        console.log(msg.sender);
         return keys[msg.sender];
     }
 

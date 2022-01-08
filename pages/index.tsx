@@ -5,7 +5,14 @@ import { FaImage, FaLock, FaUnlock } from "react-icons/fa";
 import Typed from "react-typed";
 import Navigation from "../components/Navigation/Navigation.component";
 import { useDropzone } from "react-dropzone";
-import { LegacyRef, useCallback, useContext, useRef, useState } from "react";
+import {
+  LegacyRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import getBase64 from "../utils/helpers/base64";
 import React from "react";
 import { AccessStatus } from "../types/accessStatus.enum";
@@ -14,24 +21,31 @@ import { ImageKeyContext } from "../utils/providers/ImageKey.provider";
 import WalletConnect from "../components/Modals/WalletConnect.modal";
 import { UserContext } from "../utils/providers/User.provider";
 import CreateNewImageKey from "../components/Modals/CreateNewImageKey.modal";
+import { ethers } from "ethers";
+import config from "../utils/helpers/config";
+import keyGetter from "../utils/helpers/keyGetter";
 
 const Home: NextPage = () => {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
   const { user } = useContext(UserContext);
-  const [accessStatus, setAccessStatus] = useState(AccessStatus.KEY_NOT_FOUND);
+  const [accessStatus, setAccessStatus] = useState<any>(undefined);
   const [newImageKeyModal, setImageKeyModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showNewKeyModal, setShowNewKeyModal] = useState(false);
   const DropzoneRef: LegacyRef<HTMLDivElement> | undefined = React.createRef();
 
-  const handleImageKeySubmit = () => {
+  const handleImageKeySubmit = async () => {
     if (user?.address?.length > 0) {
       if (!imageKey?.byteData) {
         DropzoneRef.current?.focus();
       } else {
-        //check if address has that image data
-        setAccessStatus(AccessStatus.KEY_NOT_FOUND);
-        if (accessStatus === AccessStatus.KEY_NOT_FOUND) {
+        const keyData = await keyGetter(imageKey, user.address);
+        setAccessStatus(keyData?.accessStatus);
+        if (keyData?.accessStatus === AccessStatus.KEY_MATCHED) {
+          sessionStorage.setItem("accessStatus", keyData.accessStatus);
+          window.location.href = "/dashboard";
+        }
+        if (keyData?.accessStatus === AccessStatus.KEY_NOT_FOUND) {
           setShowNewKeyModal(true);
         }
       }
