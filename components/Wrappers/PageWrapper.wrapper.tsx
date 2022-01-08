@@ -15,7 +15,7 @@ const PageWrapper: NextPage = ({ children }) => {
     console.log(error);
     if (
       error?.name === "UnsupportedChainIdError" ||
-      error?.message.endsWith("137.")
+      error?.message.endsWith("001.")
     ) {
       setIsUnsupportedChainId(true);
     } else {
