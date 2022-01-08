@@ -12,6 +12,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Code,
 } from "@chakra-ui/react";
 import { FaExchangeAlt, FaInfoCircle, FaWallet } from "react-icons/fa";
 import config from "../../utils/helpers/config";
@@ -45,7 +46,8 @@ export default function SwitchNetwork({ onResolve }: any) {
                 <FaInfoCircle />
               </Box>
               <Text textAlign="center" fontSize="base">
-                You are not currently linked to polygon network.
+                You are not currently linked to polygon mumbai <Code>test</Code>{" "}
+                network.
               </Text>
             </Flex>
             <Button
@@ -61,7 +63,7 @@ export default function SwitchNetwork({ onResolve }: any) {
               fontWeight="bold"
               bg="linear-gradient(289.29deg, #00E3D6 -76.18%, #3788FF 116.82%)"
             >
-              Switch to Polygon
+              Switch to Polygon{" "}
             </Button>
           </Flex>
         </ModalBody>
