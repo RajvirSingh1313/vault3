@@ -144,7 +144,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                 <Text
                   textAlign="center"
                   mt="2"
-                  fontSize="xs"
+                  fontSize={{ base: "xs", md: "sm" }}
                   transitionDuration="400ms"
                   opacity={step === 1 ? 1 : 0.5}
                 >
@@ -175,7 +175,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                 <Text
                   textAlign="center"
                   mt="2"
-                  fontSize="xs"
+                  fontSize={{ base: "xs", md: "sm" }}
                   transitionDuration="400ms"
                   opacity={step === 2 ? 1 : 0.5}
                 >
@@ -208,7 +208,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                   mt="2"
                   opacity={step === 3 ? 1 : 0.5}
                   transitionDuration="400ms"
-                  fontSize="xs"
+                  fontSize={{ base: "xs", md: "sm" }}
                 >
                   Unlock your vault
                 </Text>

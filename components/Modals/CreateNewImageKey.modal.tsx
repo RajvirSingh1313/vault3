@@ -23,7 +23,7 @@ export default function CreateNewImageKey({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent rounded={{ base: "none", md: "xl" }}>
         <ModalHeader>
           <Flex alignItems="center" experimental_spaceX="2">
             <Box color="brand.blue">
