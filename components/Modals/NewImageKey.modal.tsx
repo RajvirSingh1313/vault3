@@ -82,7 +82,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
   const handleImageKeySubmit = async () => {
     const keyData = await keyGetter(imageKey, user.address);
     if (keyData?.accessStatus === AccessStatus.KEY_MATCHED) {
-      sessionStorage.setItem("accessStatus", keyData.accessStatus);
+      sessionStorage.setItem("imageKey", JSON.stringify(imageKey));
       window.location.href = "/dashboard";
     }
   };

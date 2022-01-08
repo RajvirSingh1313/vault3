@@ -48,7 +48,10 @@ export default function WalletConnect({ isOpen, onClose }: any) {
               _hover={{ transform: "translatey(-4px)" }}
               _active={{}}
               _focus={{}}
-              onClick={() => connectWallet("injected")}
+              onClick={() => {
+                connectWallet("injected");
+                localStorage.setItem("method", "injected");
+              }}
               leftIcon={
                 <Image
                   src="assets/metamask.webp"
@@ -73,7 +76,10 @@ export default function WalletConnect({ isOpen, onClose }: any) {
                   alt="coinbase-logo"
                 />
               }
-              onClick={() => connectWallet("walletlink")}
+              onClick={() => {
+                connectWallet("walletlink");
+                localStorage.setItem("method", "walletlink");
+              }}
             >
               Coinbase Wallet
             </Button>
@@ -90,7 +96,10 @@ export default function WalletConnect({ isOpen, onClose }: any) {
                   alt="walletconnect-logo"
                 />
               }
-              onClick={() => connectWallet("walletconnect")}
+              onClick={() => {
+                connectWallet("walletconnect");
+                localStorage.setItem("method", "walletconnect");
+              }}
             >
               WalletConnect
             </Button>

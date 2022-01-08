@@ -24,15 +24,26 @@ import CreateNewImageKey from "../components/Modals/CreateNewImageKey.modal";
 import { ethers } from "ethers";
 import config from "../utils/helpers/config";
 import keyGetter from "../utils/helpers/keyGetter";
+import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
 
 const Home: NextPage = () => {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
+  const { connectWallet } = useWeb3();
   const { user } = useContext(UserContext);
   const [accessStatus, setAccessStatus] = useState<any>(undefined);
   const [newImageKeyModal, setImageKeyModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showNewKeyModal, setShowNewKeyModal] = useState(false);
   const DropzoneRef: LegacyRef<HTMLDivElement> | undefined = React.createRef();
+
+  useEffect(() => {
+    if (localStorage.getItem("method")) {
+      let method: keyof ConnectorOptions | any = String(
+        localStorage.getItem("method")
+      );
+      connectWallet(method);
+    }
+  }, []);
 
   const handleImageKeySubmit = async () => {
     if (user?.address?.length > 0) {
@@ -42,7 +53,7 @@ const Home: NextPage = () => {
         const keyData = await keyGetter(imageKey, user.address);
         setAccessStatus(keyData?.accessStatus);
         if (keyData?.accessStatus === AccessStatus.KEY_MATCHED) {
-          sessionStorage.setItem("accessStatus", keyData.accessStatus);
+          sessionStorage.setItem("imageKey", JSON.stringify(imageKey));
           window.location.href = "/dashboard";
         }
         if (keyData?.accessStatus === AccessStatus.KEY_NOT_FOUND) {

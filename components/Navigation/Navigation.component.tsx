@@ -108,7 +108,13 @@ export default function Navigation() {
             </MenuButton>
             <MenuList>
               {user.address && (
-                <MenuItem onClick={disconnectWallet} icon={<FaSignOutAlt />}>
+                <MenuItem
+                  onClick={() => {
+                    disconnectWallet();
+                    localStorage.removeItem("method");
+                  }}
+                  icon={<FaSignOutAlt />}
+                >
                   Sign out
                 </MenuItem>
               )}
