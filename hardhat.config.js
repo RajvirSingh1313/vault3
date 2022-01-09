@@ -25,9 +25,5 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
-    matic: {
-      url: "https://polygon-mumbai.g.alchemy.com/v2/ZDs6AIVBKDxaTe9CKcbdb-AePY5JTYQo",
-      accounts: ["0x436441A8eF5b3C705652a8b0dff624152c227a6f"],
-    },
   },
 };

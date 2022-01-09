@@ -58,7 +58,7 @@ export default function Navigation() {
         w="full"
         alignItems="center"
         p="3.5"
-        maxW="6xl"
+        maxW="5xl"
       >
         <Link href="/">
           <Flex alignItems="center" experimental_spaceX="3" cursor="pointer">

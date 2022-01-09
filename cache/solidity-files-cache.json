@@ -72,6 +72,43 @@
       "artifacts": [
         "console"
       ]
+    },
+    "C:\\Users\\SAPTARSHI\\Desktop\\DevSpace\\vault3\\contracts\\UserVault.sol": {
+      "lastModificationDate": 1641735099374,
+      "contentHash": "654905c9291d9e71bf72e947232bb56a",
+      "sourceName": "contracts/UserVault.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "UserVault"
+      ]
     }
   }
 }

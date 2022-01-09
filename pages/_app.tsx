@@ -8,6 +8,7 @@ import "regenerator-runtime/runtime.js";
 import PageWrapper from "../components/Wrappers/PageWrapper.wrapper";
 import { ImageKeyProvider } from "../utils/providers/ImageKey.provider";
 import config from "../utils/helpers/config";
+import { FileProvider } from "../utils/providers/File.provider";
 
 function App({ Component, pageProps }: AppProps) {
   const supportedChainIds = [config.chainId];
@@ -41,7 +42,9 @@ function App({ Component, pageProps }: AppProps) {
         <UserProvider>
           <PageWrapper>
             <ImageKeyProvider>
-              <Component {...pageProps} />
+              <FileProvider>
+                <Component {...pageProps} />
+              </FileProvider>
             </ImageKeyProvider>
           </PageWrapper>
         </UserProvider>

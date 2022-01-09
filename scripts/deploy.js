@@ -17,9 +17,14 @@ async function main() {
   const KeyRegistrar = await hre.ethers.getContractFactory("KeyRegistrar");
   const keyregistrar = await KeyRegistrar.deploy();
 
+  const UserVault = await hre.ethers.getContractFactory("UserVault");
+  const uservault = await UserVault.deploy();
+
   await keyregistrar.deployed();
+  await uservault.deployed();
 
   console.log("KeyRegistrar deployed to:", keyregistrar.address);
+  console.log("UserVault deployed to:", uservault.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

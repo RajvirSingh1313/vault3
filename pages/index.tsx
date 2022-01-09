@@ -5,14 +5,7 @@ import { FaImage, FaLock, FaUnlock } from "react-icons/fa";
 import Typed from "react-typed";
 import Navigation from "../components/Navigation/Navigation.component";
 import { useDropzone } from "react-dropzone";
-import {
-  LegacyRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { LegacyRef, useCallback, useContext, useEffect, useState } from "react";
 import getBase64 from "../utils/helpers/base64";
 import React from "react";
 import { AccessStatus } from "../types/accessStatus.enum";
@@ -21,8 +14,6 @@ import { ImageKeyContext } from "../utils/providers/ImageKey.provider";
 import WalletConnect from "../components/Modals/WalletConnect.modal";
 import { UserContext } from "../utils/providers/User.provider";
 import CreateNewImageKey from "../components/Modals/CreateNewImageKey.modal";
-import { ethers } from "ethers";
-import config from "../utils/helpers/config";
 import keyGetter from "../utils/helpers/keyGetter";
 import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
 
@@ -119,7 +110,7 @@ const Home: NextPage = () => {
         alt="ui-blur-two"
       />
 
-      <Box position="relative" zIndex={3}>
+      <Box position="relative" zIndex={3} maxW="6xl" mx="auto">
         <Navigation />
         <Box padding={{ base: "20px", md: "30px" }} />
         <Box
