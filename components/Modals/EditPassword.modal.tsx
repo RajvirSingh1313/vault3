@@ -44,7 +44,7 @@ export default function EditPassword({ isOpen, onClose, file }: any) {
   const { setFiles } = useContext<any>(FileContext);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    url: "",
+    url: file.name,
     username: "",
     password: "",
   });

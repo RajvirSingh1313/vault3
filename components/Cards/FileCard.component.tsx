@@ -43,6 +43,7 @@ export default function File({ file }: any) {
       w={{ base: "160px", md: "240px" }}
     >
       {isDeleting && <DeletingFile />}
+
       {isEditing && (
         <EditPassword
           isOpen={isEditing}
@@ -50,11 +51,14 @@ export default function File({ file }: any) {
           file={file}
         />
       )}
-      <PasswordCard
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        file={file}
-      />
+
+      {isModalOpen && (
+        <PasswordCard
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          file={file}
+        />
+      )}
       <AspectRatio
         ratio={188 / 88}
         w="full"
@@ -76,7 +80,12 @@ export default function File({ file }: any) {
           <Box onClick={() => setIsModalOpen(true)}>
             <Flex align="center" color="gray.500" experimental_spaceX="1">
               <FaLink size="12px" />
-              <Text color="black" fontWeight="semibold" noOfLines={1}>
+              <Text
+                color="black"
+                fontWeight="semibold"
+                fontSize={{ base: "sm", md: "md" }}
+                noOfLines={1}
+              >
                 {file.name}
               </Text>
             </Flex>
