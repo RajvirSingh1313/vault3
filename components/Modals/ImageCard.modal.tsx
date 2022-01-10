@@ -75,7 +75,7 @@ export default function ImageCard({ isOpen, onClose, image }: any) {
         />
 
         <ModalBody>
-          <Image src={image} rounded="xl" my="1" alt="image" />
+          <Image mx="auto" src={image} rounded="xl" my="1" alt="image" />
           {url && (
             <Link href={url} isExternal color="white" fontSize="sm" mx="2">
               Open original

@@ -35,16 +35,21 @@ import { UserContext } from "../../utils/providers/User.provider";
 import CryptoJs from "crypto-js";
 import ImageCard from "../Modals/ImageCard.modal";
 import imageDeleter from "../../utils/helpers/imageDeleter";
+import { QueriedFilesContext } from "../../utils/providers/QueriedFiles.provider";
 
 export default function File({ file }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { files, setFiles } = useContext(FileContext);
   const { user } = useContext(UserContext);
+  const { queriedFiles } = useContext(QueriedFilesContext);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [image, setImage] = useState<any>(undefined);
 
   const getImage = async () => {
+    console.log(file.uid);
+    setLoading(true);
     const { data, error } = await supabase
       .from("images")
       .select("hash")
@@ -54,13 +59,14 @@ export default function File({ file }: any) {
     setImage(
       CryptoJs.AES.decrypt(data.hash, user.address).toString(CryptoJs.enc.Utf8)
     );
+    setLoading(false);
   };
 
   useEffect(() => {
     if (file.file_type === FileType.IMAGE) {
       getImage();
     }
-  }, [files]);
+  }, [files, queriedFiles]);
 
   return (
     <Box
@@ -69,7 +75,7 @@ export default function File({ file }: any) {
       roundedBottom="none"
       cursor="pointer"
       role="group"
-      w={{ base: "160px", md: "240px" }}
+      w="full"
     >
       {isDeleting && <DeletingFile />}
 
@@ -102,7 +108,11 @@ export default function File({ file }: any) {
       >
         {file.file_type === FileType.IMAGE ? (
           <>
-            {image ? <Image src={image} alt={file.file_type} /> : <Skeleton />}
+            {image && !loading ? (
+              <Image src={image} alt={file.file_type} />
+            ) : (
+              <Skeleton />
+            )}
           </>
         ) : (
           <Image

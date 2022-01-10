@@ -69,9 +69,8 @@ export default function NewImageKey({ isOpen, onClose }: any) {
     if (imageKey?.byteData && rulesChecked) {
       setStep(2);
       await KeyMaker(imageKey, user.address);
-      setTimeout(() => {
-        setStep(3);
-      }, 6000);
+
+      setStep(3);
     } else if (!imageKey?.byteData) {
       dropZoneRef.current?.focus();
     } else if (!rulesChecked) {

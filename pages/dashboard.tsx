@@ -10,10 +10,13 @@ import {
   InputLeftElement,
   Spinner,
   Text,
+  Grid,
+  Kbd,
+  Badge,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
-import { Plus } from "react-feather";
+import { Plus, X } from "react-feather";
 import { FaDatabase, FaPlus, FaSearch } from "react-icons/fa";
 import NewFile from "../components/Cards/NewFile.component";
 import NewPassword from "../components/Modals/NewPassword.modal";
@@ -24,6 +27,8 @@ import File from "../components/Cards/FileCard.component";
 import fileGetter from "../utils/helpers/fileGetter";
 import { FileContext } from "../utils/providers/File.provider";
 import NewImage from "../components/Modals/NewImage.modal";
+import { QueriedFilesContext } from "../utils/providers/QueriedFiles.provider";
+import { FileType } from "../types/fileTypes";
 
 const Dashboard: NextPage = () => {
   const { address, connectWallet } = useWeb3();
@@ -31,6 +36,12 @@ const Dashboard: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const [showNewPasswordModal, setShowNewPasswordModal] = useState(false);
   const [showNewImageModal, setShowNewImageModal] = useState(false);
+  const [query, setQuery] = useState("");
+  const [typeContext, setTypeContext] = useState<any>(undefined);
+  const [inputValue, setInputValue] = useState("");
+  const [isFocussing, setIsFocussing] = useState(false);
+  const [isNotClicking, setIsNotClicking] = useState(true);
+  const { queriedFiles, setQueriedFiles } = useContext(QueriedFilesContext);
 
   const isAuthenticated = async () => {
     console.log(address);
@@ -64,6 +75,31 @@ const Dashboard: NextPage = () => {
       }
     }
   }, [address]);
+
+  useEffect(() => {
+    setTypeContext(undefined);
+    setQuery("");
+    setSearchQuery("", files);
+  }, [files]);
+
+  const setSearchQuery = (query: string, files: any) => {
+    if (query.length < 1) {
+      setQueriedFiles([]);
+    } else {
+      let data: Array<any> = [];
+      files.forEach((file: any) => {
+        if (
+          file.name.toLowerCase().startsWith(query.toLowerCase()) ||
+          file.file_type.toLowerCase().startsWith(query.toLowerCase())
+        ) {
+          data.push(file);
+        }
+      });
+      setQueriedFiles(data);
+      return data;
+    }
+    setIsFocussing(false);
+  };
 
   return (
     <>
@@ -99,24 +135,113 @@ const Dashboard: NextPage = () => {
                   maxW="5xl"
                 >
                   <Flex align="center">
-                    <Text fontSize="lg" color="gray.500" minW="120px">
+                    <Text
+                      fontSize="lg"
+                      color="gray.500"
+                      minW="120px"
+                      cursor="pointer"
+                      onClick={() => {
+                        setTypeContext(undefined);
+                        setQuery("");
+                        setSearchQuery("", files);
+                      }}
+                    >
                       Recent files
                     </Text>
-
-                    <InputGroup>
-                      <InputLeftElement color="gray.500">
-                        <FaSearch />
-                      </InputLeftElement>
-                      <Input
-                        minW={{ md: "300px", lg: "400px" }}
-                        placeholder="Search"
-                        bg="white"
-                        rounded="xl"
-                        roundedBottom="none"
-                        border="none"
-                        type="search"
-                      />
-                    </InputGroup>
+                    <Box
+                      position="relative"
+                      onFocus={() => {
+                        setIsFocussing(true);
+                      }}
+                    >
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          setQuery(inputValue);
+                          if (typeContext) {
+                            const data = setSearchQuery(typeContext, files);
+                            setSearchQuery(inputValue, data);
+                          } else {
+                            setSearchQuery(inputValue, files);
+                          }
+                          setIsFocussing(false);
+                        }}
+                      >
+                        <InputGroup>
+                          <InputLeftElement color="gray.500">
+                            <FaSearch />
+                          </InputLeftElement>
+                          <Input
+                            onChange={(e) => {
+                              setIsFocussing(true);
+                              if (
+                                e.target.value.length < 1 &&
+                                query.length !== 0 &&
+                                !typeContext
+                              ) {
+                                setQuery(e.target.value);
+                                setQueriedFiles([]);
+                              } else if (
+                                e.target.value.length < 1 &&
+                                query.length !== 0
+                              ) {
+                                setQuery(e.target.value);
+                                setSearchQuery(typeContext, files);
+                              }
+                              setInputValue(e.target.value);
+                            }}
+                            value={inputValue}
+                            minW={{ md: "300px", lg: "400px" }}
+                            placeholder="Search"
+                            bg="white"
+                            rounded="xl"
+                            roundedBottom="none"
+                            border="none"
+                            type="search"
+                          />
+                        </InputGroup>
+                      </form>
+                      {isFocussing && inputValue.length > 0 && (
+                        <Box
+                          cursor="pointer"
+                          onClick={() => {
+                            setQuery(inputValue);
+                            if (typeContext) {
+                              const data = setSearchQuery(typeContext, files);
+                              setSearchQuery(inputValue, data);
+                            } else {
+                              setSearchQuery(inputValue, files);
+                            }
+                            setIsFocussing(false);
+                          }}
+                          position="absolute"
+                          bottom="-10"
+                          rounded="lg"
+                          shadow="xl"
+                          color="white"
+                          bg="gray.500"
+                          p="2"
+                          px="4"
+                          display="flex"
+                          alignItems="center"
+                          experimental_spaceX="2"
+                        >
+                          <Text
+                            fontWeight="semibold"
+                            color="whiteAlpha.700"
+                            fontSize="xs"
+                          >
+                            SEARCH FOR
+                          </Text>
+                          <Text fontWeight="semibold" fontSize="sm">
+                            {inputValue}
+                          </Text>
+                          <Kbd bg="white" color="gray.600">
+                            Enter
+                          </Kbd>
+                        </Box>
+                      )}
+                    </Box>
                   </Flex>
                   <Flex
                     display={{ base: "none", md: "flex" }}
@@ -125,17 +250,81 @@ const Dashboard: NextPage = () => {
                     color="gray.500"
                   >
                     <Text
+                      onClick={() => {
+                        setTypeContext(FileType.IMAGE);
+                        const data = setSearchQuery(FileType.IMAGE, files);
+                        if (query.length > 0) {
+                          setSearchQuery(query, data);
+                        }
+                      }}
                       pb="3"
+                      cursor="pointer"
+                      transitionDuration="200ms"
                       _focus={{ borderBottom: "2px" }}
-                      borderBottom="2px"
-                      borderColor="brand.blue"
-                      color="brand.blue"
-                      fontWeight="semibold"
+                      borderBottom={
+                        typeContext === FileType.IMAGE ? "2px" : "2px"
+                      }
+                      borderColor={
+                        typeContext === FileType.IMAGE
+                          ? "brand.blue"
+                          : "transparent"
+                      }
+                      color={typeContext === FileType.IMAGE ? "brand.blue" : ""}
                     >
                       Images
                     </Text>
-                    <Text pb="3">Passwords</Text>
-                    <Text pb="3">Files</Text>
+                    <Text
+                      onClick={() => {
+                        setTypeContext(FileType.PASSWORD);
+                        const data = setSearchQuery(FileType.PASSWORD, files);
+                        if (query.length > 0) {
+                          setSearchQuery(query, data);
+                        }
+                      }}
+                      pb="3"
+                      cursor="pointer"
+                      transitionDuration="200ms"
+                      _focus={{ borderBottom: "2px" }}
+                      borderBottom={
+                        typeContext === FileType.PASSWORD ? "2px" : "2px"
+                      }
+                      borderColor={
+                        typeContext === FileType.PASSWORD
+                          ? "brand.blue"
+                          : "transparent"
+                      }
+                      color={
+                        typeContext === FileType.PASSWORD ? "brand.blue" : ""
+                      }
+                    >
+                      Passwords
+                    </Text>
+                    <Text
+                      cursor="pointer"
+                      transitionDuration="200ms"
+                      _focus={{ borderBottom: "2px" }}
+                      borderBottom={
+                        typeContext === FileType.DOCUMENT ? "2px" : "2px"
+                      }
+                      borderColor={
+                        typeContext === FileType.DOCUMENT
+                          ? "brand.blue"
+                          : "transparent"
+                      }
+                      color={
+                        typeContext === FileType.DOCUMENT ? "brand.blue" : ""
+                      }
+                      pb="3"
+                      onClick={() => {
+                        setTypeContext(FileType.DOCUMENT);
+                        const data = setSearchQuery(FileType.DOCUMENT, files);
+                        if (query.length > 0) {
+                          setSearchQuery(query, data);
+                        }
+                      }}
+                    >
+                      Files
+                    </Text>
                     <Box pb="3" color="brand.blue">
                       <FaDatabase />
                     </Box>
@@ -195,7 +384,7 @@ const Dashboard: NextPage = () => {
                   />
                 </Box>
               </Flex>
-              {files.length === 0 ? (
+              {files?.length === 0 ? (
                 <Flex
                   textAlign="center"
                   direction="column"
@@ -213,13 +402,101 @@ const Dashboard: NextPage = () => {
                   </Text>
                 </Flex>
               ) : (
-                <Flex w="full" mt="2" wrap="wrap">
-                  {files.map((data: any, key: any) => (
-                    <Box key={key} mr="4" mb="4">
-                      <File file={data} />
-                    </Box>
-                  ))}
-                </Flex>
+                <Box w="full">
+                  <Box w="full">
+                    <Flex
+                      w="full"
+                      alignItems="center"
+                      justifyContent="start"
+                      experimental_spaceX="4"
+                    >
+                      {query.length > 0 && (
+                        <Flex
+                          mb="3"
+                          alignItems="center"
+                          experimental_spaceX="2"
+                        >
+                          <Text
+                            fontSize="xl"
+                            fontWeight="bold"
+                            color="brand.blue"
+                          >
+                            &quot;{query}&quot;
+                          </Text>
+                          <Box
+                            p="1"
+                            transitionDuration="200ms"
+                            cursor="pointer"
+                            onClick={() => {
+                              setQuery("");
+                              setInputValue("");
+                              if (typeContext) {
+                                setSearchQuery(typeContext, files);
+                              } else {
+                                setSearchQuery("", files);
+                              }
+                            }}
+                            rounded="full"
+                            _hover={{ bg: "gray.100" }}
+                          >
+                            <X size="18px" />
+                          </Box>
+                        </Flex>
+                      )}
+                      {typeContext && (
+                        <Badge
+                          alignItems="center"
+                          experimental_spaceX="1"
+                          display="flex"
+                          colorScheme="blue"
+                          rounded="lg"
+                          px="2"
+                          py="1"
+                          mb="3"
+                        >
+                          <Text>{typeContext}</Text>
+                          <Box
+                            _hover={{ bg: "whiteAlpha.600" }}
+                            cursor="pointer"
+                            rounded="full"
+                            onClick={() => {
+                              setTypeContext(undefined);
+                              setSearchQuery(query, files);
+                            }}
+                          >
+                            <X size="16px" />
+                          </Box>
+                        </Badge>
+                      )}
+                    </Flex>
+                  </Box>
+                  {(query.length > 0 || typeContext) &&
+                    queriedFiles.length === 0 && (
+                      <Flex w="full" justify="start">
+                        <Text color="gray.500" fontSize="sm">
+                          🐝 No files found
+                        </Text>
+                      </Flex>
+                    )}
+                  <Grid
+                    mt="2"
+                    templateColumns={{
+                      base: "repeat(2,1fr)",
+                      md: "repeat(3,1fr)",
+                      lg: "repeat(4, 1fr)",
+                    }}
+                    gap="4"
+                    w="full"
+                  >
+                    {query.length > 0 || typeContext
+                      ? queriedFiles.map((data: any, key: any) => (
+                          <File key={key} file={data} />
+                        ))
+                      : files.map((data: any, key: any) => (
+                          <File key={key} file={data} />
+                        ))}
+                  </Grid>
+                </Box>
               )}
             </Box>
           </Box>

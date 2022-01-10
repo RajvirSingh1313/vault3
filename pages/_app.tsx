@@ -9,6 +9,7 @@ import PageWrapper from "../components/Wrappers/PageWrapper.wrapper";
 import { ImageKeyProvider } from "../utils/providers/ImageKey.provider";
 import config from "../utils/helpers/config";
 import { FileProvider } from "../utils/providers/File.provider";
+import { QueriedFilesProvider } from "../utils/providers/QueriedFiles.provider";
 
 function App({ Component, pageProps }: AppProps) {
   const supportedChainIds = [config.chainId];
@@ -43,7 +44,9 @@ function App({ Component, pageProps }: AppProps) {
           <PageWrapper>
             <ImageKeyProvider>
               <FileProvider>
-                <Component {...pageProps} />
+                <QueriedFilesProvider>
+                  <Component {...pageProps} />
+                </QueriedFilesProvider>
               </FileProvider>
             </ImageKeyProvider>
           </PageWrapper>
