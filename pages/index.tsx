@@ -188,7 +188,13 @@ const Home: NextPage = () => {
               _focus={{ borderColor: "brand.blue" }}
               ref={DropzoneRef}
               outline="none"
-              borderColor={isDragActive ? "brand.blue" : "blackAlpha.300"}
+              borderColor={
+                isDragActive
+                  ? "brand.blue"
+                  : accessStatus === AccessStatus.KEY_NOT_MATCHED
+                  ? "red.500"
+                  : "blackAlpha.300"
+              }
               bg="blackAlpha.100"
               py={{ base: "3", lg: "4" }}
               px={{ base: "5", lg: "6" }}
@@ -239,7 +245,12 @@ const Home: NextPage = () => {
             </Flex>
           </Flex>
 
-          <Box mt="2">
+          <Box mt="2" textAlign="center">
+            {accessStatus === AccessStatus.KEY_NOT_MATCHED && (
+              <Text display="block" fontSize="sm" color="red.500">
+                Key doesn&apos;t match
+              </Text>
+            )}
             <Text display="inline" color="blackAlpha.500">
               Not sure how it works?
             </Text>{" "}

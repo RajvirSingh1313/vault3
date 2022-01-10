@@ -23,12 +23,14 @@ import keyGetter from "../utils/helpers/keyGetter";
 import File from "../components/Cards/FileCard.component";
 import fileGetter from "../utils/helpers/fileGetter";
 import { FileContext } from "../utils/providers/File.provider";
+import NewImage from "../components/Modals/NewImage.modal";
 
 const Dashboard: NextPage = () => {
   const { address, connectWallet } = useWeb3();
   const { files, setFiles } = useContext<any>(FileContext);
   const [loading, setLoading] = useState(true);
   const [showNewPasswordModal, setShowNewPasswordModal] = useState(false);
+  const [showNewImageModal, setShowNewImageModal] = useState(false);
 
   const isAuthenticated = async () => {
     console.log(address);
@@ -75,6 +77,14 @@ const Dashboard: NextPage = () => {
               setShowNewPasswordModal(false);
             }}
           />
+          {showNewImageModal && (
+            <NewImage
+              isOpen={showNewImageModal}
+              onClose={() => {
+                setShowNewImageModal(false);
+              }}
+            />
+          )}
           <Box position="relative" zIndex={3}>
             <Box bg="gray.200">
               <Navigation />
@@ -159,7 +169,14 @@ const Dashboard: NextPage = () => {
                     subTitle="Password and access keys"
                   />
                 </Box>
-                <Box mr={{ md: "4" }} mb="4" w={{ base: "full", md: "auto" }}>
+                <Box
+                  mr={{ md: "4" }}
+                  mb="4"
+                  w={{ base: "full", md: "auto" }}
+                  onClick={() => {
+                    setShowNewImageModal(true);
+                  }}
+                >
                   <NewFile
                     accentColor="rgba(169, 84, 255, 0.2)"
                     accentColorMain="#A954FF"
@@ -185,7 +202,12 @@ const Dashboard: NextPage = () => {
                   justify="center"
                   align="center"
                 >
-                  <Image src="assets/vault_art.svg" mt="20" w="32" />
+                  <Image
+                    src="assets/vault_art.svg"
+                    mt="20"
+                    w="32"
+                    alt="empty vault"
+                  />
                   <Text mt="4" opacity={0.5} maxW="130px">
                     Create a file to get started
                   </Text>

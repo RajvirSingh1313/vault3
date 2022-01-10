@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Flex,
   Image,
@@ -8,8 +9,9 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Skeleton,
 } from "@chakra-ui/react";
-import { Plus } from "react-feather";
+import { Folder, Plus } from "react-feather";
 import {
   FaBitbucket,
   FaCloudMeatball,
@@ -20,19 +22,46 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import fileSize from "filesize";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PasswordCard from "../Modals/PasswordCard.modal";
 import passwordDeleter from "../../utils/helpers/passwordDeleter";
 import DeletingFile from "../Modals/DeletingFile.modal";
 import { FileContext } from "../../utils/providers/File.provider";
 import fileGetter from "../../utils/helpers/fileGetter";
 import EditPassword from "../Modals/EditPassword.modal";
+import { FileType } from "../../types/fileTypes";
+import { supabase } from "../../utils/helpers/supabase";
+import { UserContext } from "../../utils/providers/User.provider";
+import CryptoJs from "crypto-js";
+import ImageCard from "../Modals/ImageCard.modal";
+import imageDeleter from "../../utils/helpers/imageDeleter";
 
 export default function File({ file }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { setFiles } = useContext(FileContext);
+  const { files, setFiles } = useContext(FileContext);
+  const { user } = useContext(UserContext);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [image, setImage] = useState<any>(undefined);
+
+  const getImage = async () => {
+    const { data, error } = await supabase
+      .from("images")
+      .select("hash")
+      .eq("uid", file.uid)
+      .single();
+
+    setImage(
+      CryptoJs.AES.decrypt(data.hash, user.address).toString(CryptoJs.enc.Utf8)
+    );
+  };
+
+  useEffect(() => {
+    if (file.file_type === FileType.IMAGE) {
+      getImage();
+    }
+  }, [files]);
+
   return (
     <Box
       rounded="xl"
@@ -44,7 +73,7 @@ export default function File({ file }: any) {
     >
       {isDeleting && <DeletingFile />}
 
-      {isEditing && (
+      {isEditing && file.file_type === FileType.PASSWORD && (
         <EditPassword
           isOpen={isEditing}
           onClose={() => setIsEditing(false)}
@@ -52,11 +81,18 @@ export default function File({ file }: any) {
         />
       )}
 
-      {isModalOpen && (
+      {isModalOpen && file.file_type === FileType.PASSWORD && (
         <PasswordCard
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           file={file}
+        />
+      )}
+      {isModalOpen && file.file_type === FileType.IMAGE && image && (
+        <ImageCard
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          image={image}
         />
       )}
       <AspectRatio
@@ -64,7 +100,16 @@ export default function File({ file }: any) {
         w="full"
         onClick={() => setIsModalOpen(true)}
       >
-        <Image src="assets/password_card.svg" alt={file.type} />
+        {file.file_type === FileType.IMAGE ? (
+          <>
+            {image ? <Image src={image} alt={file.file_type} /> : <Skeleton />}
+          </>
+        ) : (
+          <Image
+            src={`assets/${file.file_type}_card.svg`}
+            alt={file.file_type}
+          />
+        )}
       </AspectRatio>
       <Box
         _groupHover={{ bg: "gray.100" }}
@@ -100,7 +145,7 @@ export default function File({ file }: any) {
               rounded="full"
             >
               <Box>
-                <Image src="assets/meatball_menu.png" w="6" h="6" />
+                <Image src="assets/meatball_menu.png" w="6" h="6" alt="menu" />
               </Box>
             </MenuButton>
             <MenuList>
@@ -117,7 +162,12 @@ export default function File({ file }: any) {
                 icon={<FaTrash />}
                 onClick={async () => {
                   setIsDeleting(true);
-                  await passwordDeleter(file.uid);
+                  if (file.file_type === FileType.PASSWORD) {
+                    await passwordDeleter(file.uid);
+                  }
+                  if (file.file_type === FileType.IMAGE) {
+                    await imageDeleter(file.uid);
+                  }
                   const data: any = await fileGetter();
                   setFiles(data);
                   setIsDeleting(false);

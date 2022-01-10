@@ -55,10 +55,11 @@ export default function NewPassword({ isOpen, onClose }: any) {
       formData.password,
       user.address
     );
-    setLoading(false);
-    onClose();
+
     const data = await fileGetter();
     setFiles(data);
+    setLoading(false);
+    onClose();
   };
 
   return (
@@ -68,7 +69,7 @@ export default function NewPassword({ isOpen, onClose }: any) {
         <ModalHeader>
           <Flex alignItems="center" experimental_spaceX="4">
             <Box color="brand.blue">
-              <Image src="assets/password_file.svg" w="6" />
+              <Image src="assets/password_file.svg" w="6" alt="password_file" />
             </Box>
             <Text>Create new password</Text>
           </Flex>

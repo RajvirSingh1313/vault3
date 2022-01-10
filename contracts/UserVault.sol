@@ -18,13 +18,20 @@ contract UserVault {
         string username;
     }
 
+    struct Image {
+        string name;
+        string image_type;
+    }
+
     mapping(address => File[]) private files;
     mapping(string => Password) private passwords;
+    mapping(string => Image) private images;
 
     function getFiles() public view returns (File[] memory) {
         return files[msg.sender];
     }
 
+    //Password CRUD
     function createPassword(
         string memory uid,
         string memory hash,
@@ -99,5 +106,48 @@ contract UserVault {
         delete files[msg.sender][index];
         Password memory password;
         passwords[uid] = password;
+    }
+
+    //Image CRUD
+    function createImage(
+        string memory uid,
+        string memory name,
+        string memory image_type,
+        string memory size
+    ) external payable {
+        //creating new image object
+        Image storage image = images[uid];
+        image.name = name;
+        image.image_type = image_type;
+
+        //creating new file object
+        File memory file;
+        file.owner = msg.sender;
+        file.name = name;
+        file.uid = uid;
+        file.file_type = "image";
+        file.size = size;
+
+        //pushing the new file to user db
+        files[msg.sender].push(file);
+    }
+
+    function getImage(string memory uid) public view returns (Image memory) {
+        return images[uid];
+    }
+
+    function deleteImage(string memory uid) external payable {
+        uint256 index = 0;
+        for (uint256 i = 0; i < files[msg.sender].length; i++) {
+            if (
+                keccak256(bytes(files[msg.sender][i].uid)) ==
+                keccak256(bytes(uid))
+            ) {
+                index = i;
+            }
+        }
+        delete files[msg.sender][index];
+        Image memory image;
+        images[uid] = image;
     }
 }
