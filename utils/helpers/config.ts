@@ -5,7 +5,7 @@ const config = {
     chainId: 80001,
     maxFileSize: 8388608,
     keyRegistrar: {
-        address: "0xfce35dAbb2b898BE3a3F377B95d787D5972D4fb2",
+        address: "0x9d0DD96DbD54160de4bBe4B198529112727A9546",
         abi: KeyRegistrar.abi
     },
     userVault: {

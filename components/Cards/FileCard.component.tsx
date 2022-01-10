@@ -149,14 +149,16 @@ export default function File({ file }: any) {
               </Box>
             </MenuButton>
             <MenuList>
-              <MenuItem
-                icon={<FaPen />}
-                onClick={() => {
-                  setIsEditing(true);
-                }}
-              >
-                Edit
-              </MenuItem>
+              {file.file_type !== FileType.IMAGE && (
+                <MenuItem
+                  icon={<FaPen />}
+                  onClick={() => {
+                    setIsEditing(true);
+                  }}
+                >
+                  Edit
+                </MenuItem>
+              )}
               <MenuItem
                 color="red.400"
                 icon={<FaTrash />}
