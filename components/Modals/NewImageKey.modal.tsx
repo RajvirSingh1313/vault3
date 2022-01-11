@@ -64,6 +64,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
         acceptedFiles[0].type === "image/png" ||
         acceptedFiles[0].type === "image/svg" ||
         acceptedFiles[0].type === "image/svg+xml" ||
+        acceptedFiles[0].type === "image/gif" ||
         acceptedFiles[0].type === "image/webp") &&
       acceptedFiles[0].size <= config.maxFileSize
     ) {
@@ -81,6 +82,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
       acceptedFiles[0].type !== "image/png" ||
       acceptedFiles[0].type !== "image/svg" ||
       acceptedFiles[0].type !== "image/svg+xml" ||
+      acceptedFiles[0].type !== "image/gif" ||
       acceptedFiles[0].type !== "image/webp"
     ) {
       setError("File type not supported");
