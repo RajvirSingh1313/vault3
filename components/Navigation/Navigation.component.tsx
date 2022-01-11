@@ -116,6 +116,7 @@ export default function Navigation() {
                   onClick={() => {
                     disconnectWallet();
                     localStorage.removeItem("method");
+                    window.location.href = "/";
                   }}
                   icon={<FaSignOutAlt />}
                 >

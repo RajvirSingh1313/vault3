@@ -22,6 +22,7 @@ import {
   UnorderedList,
   ListItem,
   Divider,
+  Link,
 } from "@chakra-ui/react";
 import React, { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -29,6 +30,7 @@ import {
   FaArrowRight,
   FaCheck,
   FaImage,
+  FaInfoCircle,
   FaKey,
   FaLock,
   FaUnlock,
@@ -36,6 +38,7 @@ import {
 import ReactTyped from "react-typed";
 import { AccessStatus } from "../../types/accessStatus.enum";
 import getBase64 from "../../utils/helpers/base64";
+import config from "../../utils/helpers/config";
 import keyGetter from "../../utils/helpers/keyGetter";
 import KeyMaker from "../../utils/helpers/keyMaker";
 import { ImageKeyContext } from "../../utils/providers/ImageKey.provider";
@@ -45,6 +48,8 @@ export default function NewImageKey({ isOpen, onClose }: any) {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
   const [step, setStep] = useState(1);
   const [rulesChecked, setRulesChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any>(undefined);
   const { user } = useContext(UserContext);
 
   const rulesCheckboxRef: React.LegacyRef<HTMLInputElement> | undefined =
@@ -54,23 +59,50 @@ export default function NewImageKey({ isOpen, onClose }: any) {
 
   const onDrop = useCallback((acceptedFiles) => {
     const imageData = acceptedFiles[0];
-    setImageKey({ fileData: imageData, byteData: undefined });
-    getBase64(imageData)
-      .then((data) => {
-        setImageKey({ byteData: data, fileData: imageData });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (
+      (acceptedFiles[0].type === "image/jpeg" ||
+        acceptedFiles[0].type === "image/png" ||
+        acceptedFiles[0].type === "image/svg" ||
+        acceptedFiles[0].type === "image/svg+xml" ||
+        acceptedFiles[0].type === "image/webp") &&
+      acceptedFiles[0].size <= config.maxFileSize
+    ) {
+      setError(undefined);
+      setImageKey({ fileData: imageData, byteData: undefined });
+      getBase64(imageData)
+        .then((data) => {
+          setImageKey({ byteData: data, fileData: imageData });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (
+      acceptedFiles[0].type === "image/jpeg" ||
+      acceptedFiles[0].type !== "image/png" ||
+      acceptedFiles[0].type !== "image/svg" ||
+      acceptedFiles[0].type !== "image/svg+xml" ||
+      acceptedFiles[0].type !== "image/webp"
+    ) {
+      setError("File type not supported");
+    } else {
+      setError("Maximum upload size is 8 MB");
+    }
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleNewImageSubmit = async () => {
     if (imageKey?.byteData && rulesChecked) {
-      setStep(2);
-      await KeyMaker(imageKey, user.address);
-
-      setStep(3);
+      try {
+        setStep(2);
+        await KeyMaker(imageKey, user.address);
+        setError(undefined);
+        setStep(3);
+      } catch (err) {
+        console.log(err);
+        setStep(1);
+        setError(undefined);
+        onClose();
+      }
     } else if (!imageKey?.byteData) {
       dropZoneRef.current?.focus();
     } else if (!rulesChecked) {
@@ -79,15 +111,27 @@ export default function NewImageKey({ isOpen, onClose }: any) {
   };
 
   const handleImageKeySubmit = async () => {
+    setLoading(true);
     const keyData = await keyGetter(imageKey, user.address);
     if (keyData?.accessStatus === AccessStatus.KEY_MATCHED) {
+      setError(undefined);
       sessionStorage.setItem("imageKey", JSON.stringify(imageKey));
       window.location.href = "/dashboard";
     }
+    if (keyData?.accessStatus === AccessStatus.KEY_NOT_MATCHED) {
+      setError("Key doesn't match");
+    }
+    setLoading(false);
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        onClose();
+      }}
+      size="4xl"
+    >
       <ModalOverlay />
       <ModalContent rounded={{ base: "none", md: "xl" }}>
         <ModalHeader>
@@ -253,7 +297,13 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     border="dashed 2px"
                     transitionDuration="200ms"
                     _hover={{ borderColor: "brand.blue" }}
-                    borderColor={isDragActive ? "brand.blue" : "gray.400"}
+                    borderColor={
+                      isDragActive
+                        ? "brand.blue"
+                        : error
+                        ? "red.500"
+                        : "blackAlpha.300"
+                    }
                     p="4"
                   >
                     {imageKey?.fileData ? (
@@ -262,6 +312,11 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                       <Text>Drop/Upload your image</Text>
                     )}
                   </Box>
+                  {error && (
+                    <Text color="red.500" fontSize="sm" mt="2">
+                      {error}
+                    </Text>
+                  )}
                   <Flex justify="space-between" mt="3" alignItems="start">
                     <Menu>
                       <MenuButton>
@@ -318,7 +373,8 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                   </ListItem>
 
                   <ListItem>
-                    We promise we will never save your key on our server.
+                    We promise we will never save your key on our server. You
+                    should save your key somewhere safe.
                   </ListItem>
                   <Checkbox
                     ref={rulesCheckboxRef}
@@ -355,6 +411,23 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                       typeSpeed={200}
                       backSpeed={80}
                     />
+                  </Text>
+                </Flex>
+                <Flex
+                  color="gray.500"
+                  fontSize="sm"
+                  align="start"
+                  experimental_spaceX="2"
+                >
+                  <Box mt="0.5">
+                    <FaInfoCircle />
+                  </Box>
+                  <Text>
+                    Visit{" "}
+                    <Link isExternal href="https://faucet.polygon.technology">
+                      https://faucet.polygon.technology/
+                    </Link>{" "}
+                    to get free test MATIC
                   </Text>
                 </Flex>
               </Flex>
@@ -399,7 +472,13 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     _focus={{ borderColor: "brand.blue" }}
                     ref={dropZoneRef}
                     outline="none"
-                    borderColor={isDragActive ? "brand.blue" : "blackAlpha.300"}
+                    borderColor={
+                      isDragActive
+                        ? "brand.blue"
+                        : error
+                        ? "red.500"
+                        : "blackAlpha.300"
+                    }
                     bg="blackAlpha.100"
                     py={{ base: "3", lg: "4" }}
                     px={{ base: "5", lg: "6" }}
@@ -445,10 +524,23 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     roundedRight="2xl"
                     onClick={handleImageKeySubmit}
                   >
-                    {imageKey?.byteData ? <FaUnlock /> : <FaLock />}
+                    {imageKey?.byteData ? (
+                      loading ? (
+                        <Spinner w="18px" h="18px" />
+                      ) : (
+                        <FaUnlock />
+                      )
+                    ) : (
+                      <FaLock />
+                    )}
                     <Text>Unlock</Text>
                   </Flex>
                 </Flex>
+                {error && (
+                  <Text display="block" fontSize="sm" color="red.500">
+                    {error}
+                  </Text>
+                )}
               </Flex>
             )}
           </Box>

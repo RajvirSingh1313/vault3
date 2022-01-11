@@ -16,7 +16,6 @@ export default async function keyGetter(imageKey: any, address: string) {
             );
             try {
                 const data = await contract.getKey();
-                console.log(data);
                 let accessStatus: any = undefined;
                 const res = await KeyChecker(imageKey, data, address);
                 if (data === "") {

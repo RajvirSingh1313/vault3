@@ -48,7 +48,6 @@ export default function File({ file }: any) {
   const [image, setImage] = useState<any>(undefined);
 
   const getImage = async () => {
-    console.log(file.uid);
     setLoading(true);
     const { data, error } = await supabase
       .from("images")
@@ -140,6 +139,7 @@ export default function File({ file }: any) {
                 fontWeight="semibold"
                 fontSize={{ base: "sm", md: "md" }}
                 noOfLines={1}
+                wordBreak="break-all"
               >
                 {file.name}
               </Text>
@@ -153,9 +153,19 @@ export default function File({ file }: any) {
               _hover={{ bg: "gray.300" }}
               h="fit-content"
               rounded="full"
+              minW="6"
+              minH="6"
             >
               <Box>
-                <Image src="assets/meatball_menu.png" w="6" h="6" alt="menu" />
+                <Image
+                  src="assets/meatball_menu.png"
+                  minW="6"
+                  mr="-2"
+                  minH="6"
+                  w="6"
+                  h="6"
+                  alt="menu"
+                />
               </Box>
             </MenuButton>
             <MenuList>
@@ -170,7 +180,7 @@ export default function File({ file }: any) {
                 </MenuItem>
               )}
               <MenuItem
-                color="red.400"
+                color="red.500"
                 icon={<FaTrash />}
                 onClick={async () => {
                   setIsDeleting(true);

@@ -1,6 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from "next";
-import { Box, Text, Flex, Image, AspectRatio, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  AspectRatio,
+  Link,
+  Spinner,
+} from "@chakra-ui/react";
 import { FaImage, FaLock, FaUnlock } from "react-icons/fa";
 import Typed from "react-typed";
 import Navigation from "../components/Navigation/Navigation.component";
@@ -16,6 +24,7 @@ import { UserContext } from "../utils/providers/User.provider";
 import CreateNewImageKey from "../components/Modals/CreateNewImageKey.modal";
 import keyGetter from "../utils/helpers/keyGetter";
 import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
+import config from "../utils/helpers/config";
 
 const Home: NextPage = () => {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
@@ -25,6 +34,8 @@ const Home: NextPage = () => {
   const [newImageKeyModal, setImageKeyModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showNewKeyModal, setShowNewKeyModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any>(undefined);
   const DropzoneRef: LegacyRef<HTMLDivElement> | undefined = React.createRef();
 
   useEffect(() => {
@@ -41,15 +52,21 @@ const Home: NextPage = () => {
       if (!imageKey?.byteData) {
         DropzoneRef.current?.focus();
       } else {
+        setLoading(true);
         const keyData = await keyGetter(imageKey, user.address);
         setAccessStatus(keyData?.accessStatus);
         if (keyData?.accessStatus === AccessStatus.KEY_MATCHED) {
+          setError(undefined);
           sessionStorage.setItem("imageKey", JSON.stringify(imageKey));
           window.location.href = "/dashboard";
         }
         if (keyData?.accessStatus === AccessStatus.KEY_NOT_FOUND) {
           setShowNewKeyModal(true);
         }
+        if (keyData?.accessStatus === AccessStatus.KEY_NOT_MATCHED) {
+          setError("Key doesn't match");
+        }
+        setLoading(false);
       }
     } else {
       setShowLoginModal(true);
@@ -58,14 +75,34 @@ const Home: NextPage = () => {
 
   const onDrop = useCallback((acceptedFiles) => {
     const imageData = acceptedFiles[0];
-    setImageKey({ fileData: imageData, byteData: undefined });
-    getBase64(imageData)
-      .then((data) => {
-        setImageKey({ byteData: data, fileData: imageData });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (
+      (acceptedFiles[0].type === "image/jpeg" ||
+        acceptedFiles[0].type === "image/png" ||
+        acceptedFiles[0].type === "image/svg" ||
+        acceptedFiles[0].type === "image/svg+xml" ||
+        acceptedFiles[0].type === "image/webp") &&
+      acceptedFiles[0].size <= config.maxFileSize
+    ) {
+      setError(undefined);
+      setImageKey({ fileData: imageData, byteData: undefined });
+      getBase64(imageData)
+        .then((data) => {
+          setImageKey({ byteData: data, fileData: imageData });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (
+      acceptedFiles[0].type === "image/jpeg" ||
+      acceptedFiles[0].type !== "image/png" ||
+      acceptedFiles[0].type !== "image/svg" ||
+      acceptedFiles[0].type !== "image/svg+xml" ||
+      acceptedFiles[0].type !== "image/webp"
+    ) {
+      setError("File type not supported");
+    } else {
+      setError("Maximum upload size is 8 MB");
+    }
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -81,16 +118,19 @@ const Home: NextPage = () => {
           setShowNewKeyModal(false);
         }}
       />
+
       <WalletConnect
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
       />
-      <NewImageKey
-        isOpen={newImageKeyModal}
-        onClose={() => {
-          setImageKeyModal(false);
-        }}
-      />
+      {newImageKeyModal && (
+        <NewImageKey
+          isOpen={newImageKeyModal}
+          onClose={() => {
+            setImageKeyModal(false);
+          }}
+        />
+      )}
       <Image
         src="assets/ui_blur_1.png"
         position="absolute"
@@ -109,7 +149,6 @@ const Home: NextPage = () => {
         zIndex={2}
         alt="ui-blur-two"
       />
-
       <Box position="relative" zIndex={3} maxW="6xl" mx="auto">
         <Navigation />
         <Box padding={{ base: "20px", md: "30px" }} />
@@ -191,7 +230,7 @@ const Home: NextPage = () => {
               borderColor={
                 isDragActive
                   ? "brand.blue"
-                  : accessStatus === AccessStatus.KEY_NOT_MATCHED
+                  : error
                   ? "red.500"
                   : "blackAlpha.300"
               }
@@ -240,15 +279,23 @@ const Home: NextPage = () => {
               roundedRight="2xl"
               onClick={handleImageKeySubmit}
             >
-              {imageKey?.byteData ? <FaUnlock /> : <FaLock />}
+              {imageKey?.byteData ? (
+                loading ? (
+                  <Spinner w="18px" h="18px" />
+                ) : (
+                  <FaUnlock />
+                )
+              ) : (
+                <FaLock />
+              )}
               <Text>Unlock</Text>
             </Flex>
           </Flex>
 
           <Box mt="2" textAlign="center">
-            {accessStatus === AccessStatus.KEY_NOT_MATCHED && (
+            {error && (
               <Text display="block" fontSize="sm" color="red.500">
-                Key doesn&apos;t match
+                {error}
               </Text>
             )}
             <Text display="inline" color="blackAlpha.500">

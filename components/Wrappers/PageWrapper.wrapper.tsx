@@ -10,7 +10,6 @@ const PageWrapper: NextPage = ({ children }) => {
   const { setUser } = useContext<any>(UserContext);
   const [isUnsupportedChainId, setIsUnsupportedChainId] = useState(false);
   const { address, chainId, error } = useWeb3();
-  console.log(address);
 
   useEffect(() => {
     console.log(error);
@@ -25,7 +24,9 @@ const PageWrapper: NextPage = ({ children }) => {
   }, [error]);
 
   useEffect(() => {
-    console.log(address);
+    if (address) {
+      localStorage.setItem("method", "injected");
+    }
     setUser({
       address,
       chainId,

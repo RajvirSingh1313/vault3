@@ -61,12 +61,10 @@ export default function EditPassword({ isOpen, onClose, file }: any) {
   };
 
   useEffect(() => {
-    console.log(file.uid);
     getFile();
   }, []);
 
   const handleFormSubmit = async () => {
-    console.log(formData);
     setLoading(true);
     await passwordEditor(
       formData.url,

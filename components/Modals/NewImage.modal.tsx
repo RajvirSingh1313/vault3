@@ -64,7 +64,6 @@ export default function NewImage({ isOpen, onClose }: any) {
       acceptedFiles[0].size <= config.maxFileSize
     ) {
       setError(undefined);
-      console.log(acceptedFiles[0]);
       data.byteData = await getBase64(acceptedFiles[0]);
       data.image_type = acceptedFiles[0].type;
       data.size = String(acceptedFiles[0].size);
@@ -90,7 +89,6 @@ export default function NewImage({ isOpen, onClose }: any) {
   const handleFormSubmit = async () => {
     if (formData.byteData.length > 0) {
       setLoading(true);
-      console.log(formData);
       await imageCreator(
         formData.name,
         formData.byteData,
@@ -108,7 +106,15 @@ export default function NewImage({ isOpen, onClose }: any) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        if (!loading) {
+          onClose();
+        }
+      }}
+      size="xl"
+    >
       <ModalOverlay />
       <ModalContent rounded={{ base: "none", md: "xl" }}>
         <ModalHeader>
@@ -204,7 +210,11 @@ export default function NewImage({ isOpen, onClose }: any) {
           </ModalBody>
           <ModalFooter>
             <Button
-              onClick={onClose}
+              onClick={() => {
+                if (!loading) {
+                  onClose();
+                }
+              }}
               _hover={{}}
               _focus={{}}
               _active={{}}

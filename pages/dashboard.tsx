@@ -13,11 +13,16 @@ import {
   Grid,
   Kbd,
   Badge,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
 import { Plus, X } from "react-feather";
-import { FaDatabase, FaPlus, FaSearch } from "react-icons/fa";
+import { FaDatabase, FaPlus, FaSearch, FaStumbleupon } from "react-icons/fa";
 import NewFile from "../components/Cards/NewFile.component";
 import NewPassword from "../components/Modals/NewPassword.modal";
 import Navigation from "../components/Navigation/Navigation.component";
@@ -29,6 +34,7 @@ import { FileContext } from "../utils/providers/File.provider";
 import NewImage from "../components/Modals/NewImage.modal";
 import { QueriedFilesContext } from "../utils/providers/QueriedFiles.provider";
 import { FileType } from "../types/fileTypes";
+import { Menu as MenuIcon } from "react-feather";
 
 const Dashboard: NextPage = () => {
   const { address, connectWallet } = useWeb3();
@@ -40,16 +46,13 @@ const Dashboard: NextPage = () => {
   const [typeContext, setTypeContext] = useState<any>(undefined);
   const [inputValue, setInputValue] = useState("");
   const [isFocussing, setIsFocussing] = useState(false);
-  const [isNotClicking, setIsNotClicking] = useState(true);
   const { queriedFiles, setQueriedFiles } = useContext(QueriedFilesContext);
 
   const isAuthenticated = async () => {
-    console.log(address);
     const keyData = await keyGetter(
       JSON.parse(String(sessionStorage.getItem("imageKey"))),
       String(address)
     );
-    console.log(keyData);
     if (keyData?.accessStatus !== AccessStatus.KEY_MATCHED) {
       window.location.href = "/";
     } else {
@@ -136,9 +139,9 @@ const Dashboard: NextPage = () => {
                 >
                   <Flex align="center">
                     <Text
-                      fontSize="lg"
+                      mb="2"
                       color="gray.500"
-                      minW="120px"
+                      minW="100px"
                       cursor="pointer"
                       onClick={() => {
                         setTypeContext(undefined);
@@ -191,7 +194,8 @@ const Dashboard: NextPage = () => {
                               setInputValue(e.target.value);
                             }}
                             value={inputValue}
-                            minW={{ md: "300px", lg: "400px" }}
+                            mr="4"
+                            minW={{ base: "30px", md: "300px", lg: "400px" }}
                             placeholder="Search"
                             bg="white"
                             rounded="xl"
@@ -222,6 +226,8 @@ const Dashboard: NextPage = () => {
                           bg="gray.500"
                           p="2"
                           px="4"
+                          w="full"
+                          maxW="300px"
                           display="flex"
                           alignItems="center"
                           experimental_spaceX="2"
@@ -230,10 +236,17 @@ const Dashboard: NextPage = () => {
                             fontWeight="semibold"
                             color="whiteAlpha.700"
                             fontSize="xs"
+                            noOfLines={1}
                           >
                             SEARCH FOR
                           </Text>
-                          <Text fontWeight="semibold" fontSize="sm">
+                          <Text
+                            fontWeight="semibold"
+                            fontSize="sm"
+                            wordBreak="break-all"
+                            maxW={{ base: "60px", md: "100px" }}
+                            noOfLines={1}
+                          >
                             {inputValue}
                           </Text>
                           <Kbd bg="white" color="gray.600">
@@ -243,6 +256,54 @@ const Dashboard: NextPage = () => {
                       )}
                     </Box>
                   </Flex>
+                  <Menu>
+                    <MenuButton
+                      mb="3"
+                      display={{ base: "block", md: "none" }}
+                      color="gray.600"
+                    >
+                      <MenuIcon size="18px" />
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem
+                        onClick={() => {
+                          setTypeContext(FileType.IMAGE);
+                          const data = setSearchQuery(FileType.IMAGE, files);
+                          if (query.length > 0) {
+                            setSearchQuery(query, data);
+                          }
+                        }}
+                      >
+                        Images
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          setTypeContext(FileType.PASSWORD);
+                          const data = setSearchQuery(FileType.PASSWORD, files);
+                          if (query.length > 0) {
+                            setSearchQuery(query, data);
+                          }
+                        }}
+                      >
+                        Passwords
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          setTypeContext(FileType.DOCUMENT);
+                          const data = setSearchQuery(FileType.DOCUMENT, files);
+                          if (query.length > 0) {
+                            setSearchQuery(query, data);
+                          }
+                        }}
+                      >
+                        Files
+                      </MenuItem>
+                      <MenuDivider />
+                      <MenuItem>
+                        <FaDatabase />
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
                   <Flex
                     display={{ base: "none", md: "flex" }}
                     align="center"
@@ -259,7 +320,6 @@ const Dashboard: NextPage = () => {
                       }}
                       pb="3"
                       cursor="pointer"
-                      transitionDuration="200ms"
                       _focus={{ borderBottom: "2px" }}
                       borderBottom={
                         typeContext === FileType.IMAGE ? "2px" : "2px"
@@ -270,6 +330,9 @@ const Dashboard: NextPage = () => {
                           : "transparent"
                       }
                       color={typeContext === FileType.IMAGE ? "brand.blue" : ""}
+                      fontWeight={
+                        typeContext === FileType.IMAGE ? "medium" : ""
+                      }
                     >
                       Images
                     </Text>
@@ -283,7 +346,6 @@ const Dashboard: NextPage = () => {
                       }}
                       pb="3"
                       cursor="pointer"
-                      transitionDuration="200ms"
                       _focus={{ borderBottom: "2px" }}
                       borderBottom={
                         typeContext === FileType.PASSWORD ? "2px" : "2px"
@@ -296,12 +358,14 @@ const Dashboard: NextPage = () => {
                       color={
                         typeContext === FileType.PASSWORD ? "brand.blue" : ""
                       }
+                      fontWeight={
+                        typeContext === FileType.PASSWORD ? "medium" : ""
+                      }
                     >
                       Passwords
                     </Text>
                     <Text
                       cursor="pointer"
-                      transitionDuration="200ms"
                       _focus={{ borderBottom: "2px" }}
                       borderBottom={
                         typeContext === FileType.DOCUMENT ? "2px" : "2px"
@@ -313,6 +377,9 @@ const Dashboard: NextPage = () => {
                       }
                       color={
                         typeContext === FileType.DOCUMENT ? "brand.blue" : ""
+                      }
+                      fontWeight={
+                        typeContext === FileType.DOCUMENT ? "medium" : ""
                       }
                       pb="3"
                       onClick={() => {
@@ -482,7 +549,8 @@ const Dashboard: NextPage = () => {
                     mt="2"
                     templateColumns={{
                       base: "repeat(2,1fr)",
-                      md: "repeat(3,1fr)",
+                      sm: "repeat(3,1fr)",
+                      md: "repeat(4,1fr)",
                       lg: "repeat(4, 1fr)",
                     }}
                     gap="4"

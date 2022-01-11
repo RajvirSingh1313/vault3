@@ -47,7 +47,6 @@ export default function NewPassword({ isOpen, onClose }: any) {
   });
 
   const handleFormSubmit = async () => {
-    console.log(formData);
     setLoading(true);
     await passwordCreator(
       formData.url,
@@ -63,7 +62,15 @@ export default function NewPassword({ isOpen, onClose }: any) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        if (!loading) {
+          onClose();
+        }
+      }}
+      size="xl"
+    >
       <ModalOverlay />
       <ModalContent rounded={{ base: "none", md: "xl" }}>
         <ModalHeader>
@@ -150,7 +157,11 @@ export default function NewPassword({ isOpen, onClose }: any) {
           </ModalBody>
           <ModalFooter>
             <Button
-              onClick={onClose}
+              onClick={() => {
+                if (!loading) {
+                  onClose();
+                }
+              }}
               _hover={{}}
               _focus={{}}
               _active={{}}

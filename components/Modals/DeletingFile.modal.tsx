@@ -18,8 +18,7 @@ import {
 import { FaExchangeAlt, FaInfoCircle, FaWallet } from "react-icons/fa";
 import config from "../../utils/helpers/config";
 
-export default function DeletingFile({ onResolve }: any) {
-  const { switchNetwork } = useSwitchNetwork();
+export default function DeletingFile() {
   return (
     <Modal isOpen={true} onClose={() => {}}>
       <ModalOverlay />
