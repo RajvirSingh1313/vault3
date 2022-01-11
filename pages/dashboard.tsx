@@ -2,7 +2,6 @@
 import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
 import {
   Box,
-  Divider,
   Flex,
   Image,
   Input,
@@ -21,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
-import { Plus, X } from "react-feather";
+import {  X } from "react-feather";
 import { FaDatabase, FaPlus, FaSearch, FaStumbleupon } from "react-icons/fa";
 import NewFile from "../components/Cards/NewFile.component";
 import NewPassword from "../components/Modals/NewPassword.modal";

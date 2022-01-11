@@ -11,13 +11,8 @@ import {
   MenuItem,
   Skeleton,
 } from "@chakra-ui/react";
-import { Folder, Plus } from "react-feather";
 import {
-  FaBitbucket,
-  FaCloudMeatball,
-  FaHamburger,
   FaLink,
-  FaOpencart,
   FaPen,
   FaTrash,
 } from "react-icons/fa";

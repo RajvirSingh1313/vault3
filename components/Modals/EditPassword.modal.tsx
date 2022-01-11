@@ -14,7 +14,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Badge,
   Input,
   InputGroup,
   InputLeftElement,
@@ -22,17 +21,12 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import {
-  FaChevronRight,
   FaLink,
-  FaPassport,
   FaSave,
   FaStarOfLife,
   FaUser,
-  FaUserSecret,
-  FaWallet,
 } from "react-icons/fa";
 import fileGetter from "../../utils/helpers/fileGetter";
-import passwordCreator from "../../utils/helpers/passwordCreator";
 import passwordGetter from "../../utils/helpers/passwordGetter";
 import { FileContext } from "../../utils/providers/File.provider";
 import { UserContext } from "../../utils/providers/User.provider";
@@ -86,7 +80,7 @@ export default function EditPassword({ isOpen, onClose, file }: any) {
         <ModalHeader>
           <Flex alignItems="center" experimental_spaceX="4">
             <Box color="brand.blue">
-              <Image src="assets/password_file.svg" w="6" />
+              <Image src="assets/password_file.svg" w="6" alt="password-icon" />
             </Box>
             <Text>Edit password</Text>
           </Flex>
