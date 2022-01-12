@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ethers } from "ethers";
 import config from "./config";
 import CryptoJs from "crypto-js";
 import { v4 as uuidv4 } from 'uuid';
+import { useContext, useState } from "react";
+import { StorageContext } from "../providers/Database.provider";
 
 declare let window: any;
 export default async function fileGetter() {

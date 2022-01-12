@@ -11,11 +11,7 @@ import {
   MenuItem,
   Skeleton,
 } from "@chakra-ui/react";
-import {
-  FaLink,
-  FaPen,
-  FaTrash,
-} from "react-icons/fa";
+import { FaLink, FaPen, FaTrash } from "react-icons/fa";
 import fileSize from "filesize";
 import { useContext, useEffect, useState } from "react";
 import PasswordCard from "../Modals/PasswordCard.modal";
@@ -121,7 +117,6 @@ export default function File({ file }: any) {
         ratio={188 / 88}
         w="full"
         onClick={() => {
-          console.log(file);
           if (file.file_type === FileType.DOCUMENT) {
             if (!loading) {
               window.open(document, "_blank");
@@ -165,7 +160,6 @@ export default function File({ file }: any) {
         <Flex justify="space-between">
           <Box
             onClick={() => {
-              console.log(file);
               if (file.file_type === FileType.DOCUMENT) {
                 if (!loading) {
                   window.open(document, "_blank");

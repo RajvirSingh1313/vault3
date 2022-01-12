@@ -20,8 +20,8 @@ import {
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
-import {  X } from "react-feather";
-import { FaDatabase, FaPlus, FaSearch, FaStumbleupon } from "react-icons/fa";
+import { X } from "react-feather";
+import { FaDatabase, FaSearch } from "react-icons/fa";
 import NewFile from "../components/Cards/NewFile.component";
 import NewPassword from "../components/Modals/NewPassword.modal";
 import Navigation from "../components/Navigation/Navigation.component";
@@ -35,6 +35,7 @@ import { QueriedFilesContext } from "../utils/providers/QueriedFiles.provider";
 import { FileType } from "../types/fileTypes";
 import { Menu as MenuIcon } from "react-feather";
 import NewDocument from "../components/Modals/NewDocument.modal";
+import DataStats from "../components/Sections/DataStats.section";
 
 const Dashboard: NextPage = () => {
   const { address, connectWallet } = useWeb3();
@@ -310,7 +311,11 @@ const Dashboard: NextPage = () => {
                         Files
                       </MenuItem>
                       <MenuDivider />
-                      <MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          setTypeContext("DataStats");
+                        }}
+                      >
                         <FaDatabase />
                       </MenuItem>
                     </MenuList>
@@ -331,7 +336,10 @@ const Dashboard: NextPage = () => {
                       }}
                       pb="3"
                       cursor="pointer"
-                      _focus={{ borderBottom: "2px" }}
+                      _hover={{
+                        borderBottom: "2px",
+                        borderColor: "brand.blue",
+                      }}
                       borderBottom={
                         typeContext === FileType.IMAGE ? "2px" : "2px"
                       }
@@ -357,7 +365,10 @@ const Dashboard: NextPage = () => {
                       }}
                       pb="3"
                       cursor="pointer"
-                      _focus={{ borderBottom: "2px" }}
+                      _hover={{
+                        borderBottom: "2px",
+                        borderColor: "brand.blue",
+                      }}
                       borderBottom={
                         typeContext === FileType.PASSWORD ? "2px" : "2px"
                       }
@@ -377,7 +388,10 @@ const Dashboard: NextPage = () => {
                     </Text>
                     <Text
                       cursor="pointer"
-                      _focus={{ borderBottom: "2px" }}
+                      _hover={{
+                        borderBottom: "2px",
+                        borderColor: "brand.blue",
+                      }}
                       borderBottom={
                         typeContext === FileType.DOCUMENT ? "2px" : "2px"
                       }
@@ -403,7 +417,14 @@ const Dashboard: NextPage = () => {
                     >
                       Files
                     </Text>
-                    <Box pb="3" color="brand.blue">
+                    <Box
+                      pb="3"
+                      color="brand.blue"
+                      cursor="pointer"
+                      onClick={() => {
+                        setTypeContext("DataStats");
+                      }}
+                    >
                       <FaDatabase />
                     </Box>
                   </Flex>
@@ -469,120 +490,132 @@ const Dashboard: NextPage = () => {
                   />
                 </Box>
               </Flex>
-              {files?.length === 0 ? (
-                <Flex
-                  textAlign="center"
-                  direction="column"
-                  justify="center"
-                  align="center"
-                >
-                  <Image
-                    src="assets/vault_art.svg"
-                    mt="20"
-                    w="32"
-                    alt="empty vault"
-                  />
-                  <Text mt="4" opacity={0.5} maxW="130px">
-                    Create a file to get started
-                  </Text>
-                </Flex>
+              {typeContext === "DataStats" ? (
+                <DataStats
+                  goBack={() => {
+                    setTypeContext(undefined);
+                    setQuery("");
+                    setSearchQuery("", files);
+                  }}
+                />
               ) : (
-                <Box w="full">
-                  <Box w="full">
+                <>
+                  {files?.length === 0 ? (
                     <Flex
-                      w="full"
-                      alignItems="center"
-                      justifyContent="start"
-                      experimental_spaceX="4"
+                      textAlign="center"
+                      direction="column"
+                      justify="center"
+                      align="center"
                     >
-                      {query.length > 0 && (
-                        <Flex
-                          mb="3"
-                          alignItems="center"
-                          experimental_spaceX="2"
-                        >
-                          <Text
-                            fontSize="xl"
-                            fontWeight="bold"
-                            color="brand.blue"
-                          >
-                            &quot;{query}&quot;
-                          </Text>
-                          <Box
-                            p="1"
-                            transitionDuration="200ms"
-                            cursor="pointer"
-                            onClick={() => {
-                              setQuery("");
-                              setInputValue("");
-                              if (typeContext) {
-                                setSearchQuery(typeContext, files);
-                              } else {
-                                setSearchQuery("", files);
-                              }
-                            }}
-                            rounded="full"
-                            _hover={{ bg: "gray.100" }}
-                          >
-                            <X size="18px" />
-                          </Box>
-                        </Flex>
-                      )}
-                      {typeContext && (
-                        <Badge
-                          alignItems="center"
-                          experimental_spaceX="1"
-                          display="flex"
-                          colorScheme="blue"
-                          rounded="lg"
-                          px="2"
-                          py="1"
-                          mb="3"
-                        >
-                          <Text>{typeContext}</Text>
-                          <Box
-                            _hover={{ bg: "whiteAlpha.600" }}
-                            cursor="pointer"
-                            rounded="full"
-                            onClick={() => {
-                              setTypeContext(undefined);
-                              setSearchQuery(query, files);
-                            }}
-                          >
-                            <X size="16px" />
-                          </Box>
-                        </Badge>
-                      )}
+                      <Image
+                        src="assets/vault_art.svg"
+                        mt="20"
+                        w="32"
+                        alt="empty vault"
+                      />
+                      <Text mt="4" opacity={0.5} maxW="130px">
+                        Create a file to get started
+                      </Text>
                     </Flex>
-                  </Box>
-                  {(query.length > 0 || typeContext) &&
-                    queriedFiles.length === 0 && (
-                      <Flex w="full" justify="start">
-                        <Text color="gray.500" fontSize="sm">
-                          🐝 No files found
-                        </Text>
-                      </Flex>
-                    )}
-                  <Grid
-                    mt="2"
-                    templateColumns={{
-                      base: "repeat(2,1fr)",
-                      sm: "repeat(3,1fr)",
-                      md: "repeat(4,1fr)",
-                      lg: "repeat(4, 1fr)",
-                    }}
-                    gap="4"
-                    w="full"
-                  >
-                    {query.length > 0 || typeContext
-                      ? queriedFiles.map((data: any, key: any) => (
-                          <File key={key} file={data} />
-                        ))
-                      : files.map((data: any, key: any) => (
-                          <File key={key} file={data} />
-                        ))}
-                  </Grid>
-                </Box>
+                  ) : (
+                    <Box w="full">
+                      <Box w="full">
+                        <Flex
+                          w="full"
+                          alignItems="center"
+                          justifyContent="start"
+                          experimental_spaceX="4"
+                        >
+                          {query.length > 0 && (
+                            <Flex
+                              mb="3"
+                              alignItems="center"
+                              experimental_spaceX="2"
+                            >
+                              <Text
+                                fontSize="xl"
+                                fontWeight="bold"
+                                color="brand.blue"
+                              >
+                                &quot;{query}&quot;
+                              </Text>
+                              <Box
+                                p="1"
+                                transitionDuration="200ms"
+                                cursor="pointer"
+                                onClick={() => {
+                                  setQuery("");
+                                  setInputValue("");
+                                  if (typeContext) {
+                                    setSearchQuery(typeContext, files);
+                                  } else {
+                                    setSearchQuery("", files);
+                                  }
+                                }}
+                                rounded="full"
+                                _hover={{ bg: "gray.100" }}
+                              >
+                                <X size="18px" />
+                              </Box>
+                            </Flex>
+                          )}
+                          {typeContext && (
+                            <Badge
+                              alignItems="center"
+                              experimental_spaceX="1"
+                              display="flex"
+                              colorScheme="blue"
+                              rounded="lg"
+                              px="2"
+                              py="1"
+                              mb="3"
+                            >
+                              <Text>{typeContext}</Text>
+                              <Box
+                                _hover={{ bg: "whiteAlpha.600" }}
+                                cursor="pointer"
+                                rounded="full"
+                                onClick={() => {
+                                  setTypeContext(undefined);
+                                  setSearchQuery(query, files);
+                                }}
+                              >
+                                <X size="16px" />
+                              </Box>
+                            </Badge>
+                          )}
+                        </Flex>
+                      </Box>
+                      {(query.length > 0 || typeContext) &&
+                        queriedFiles.length === 0 && (
+                          <Flex w="full" justify="start">
+                            <Text color="gray.500" fontSize="sm">
+                              🐝 No files found
+                            </Text>
+                          </Flex>
+                        )}
+                      <Grid
+                        mt="2"
+                        templateColumns={{
+                          base: "repeat(2,1fr)",
+                          sm: "repeat(3,1fr)",
+                          md: "repeat(4,1fr)",
+                          lg: "repeat(4, 1fr)",
+                        }}
+                        gap="4"
+                        w="full"
+                      >
+                        {query.length > 0 || typeContext
+                          ? queriedFiles.map((data: any, key: any) => (
+                              <File key={key} file={data} />
+                            ))
+                          : files.map((data: any, key: any) => (
+                              <File key={key} file={data} />
+                            ))}
+                      </Grid>
+                    </Box>
+                  )}{" "}
+                </>
               )}
             </Box>
           </Box>

@@ -10,6 +10,7 @@ import { ImageKeyProvider } from "../utils/providers/ImageKey.provider";
 import config from "../utils/helpers/config";
 import { FileProvider } from "../utils/providers/File.provider";
 import { QueriedFilesProvider } from "../utils/providers/QueriedFiles.provider";
+import { StorageProvider } from "../utils/providers/Database.provider";
 
 function App({ Component, pageProps }: AppProps) {
   const supportedChainIds = [config.chainId];
@@ -45,7 +46,9 @@ function App({ Component, pageProps }: AppProps) {
             <ImageKeyProvider>
               <FileProvider>
                 <QueriedFilesProvider>
-                  <Component {...pageProps} />
+                  <StorageProvider>
+                    <Component {...pageProps} />
+                  </StorageProvider>
                 </QueriedFilesProvider>
               </FileProvider>
             </ImageKeyProvider>
