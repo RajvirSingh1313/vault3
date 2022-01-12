@@ -50,7 +50,7 @@ function App({ Component, pageProps }: AppProps) {
           description: "Secure your passwords, images, documents and much more on-chain with Vault3.",
           images: [
             {
-              url: "/assets/vault_art.png",
+              url: "/assets/art.png",
               alt: "Vault3",
               type: "image/png",
             },
