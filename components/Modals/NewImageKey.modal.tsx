@@ -23,11 +23,13 @@ import {
   ListItem,
   Divider,
   Link,
+  Badge,
 } from "@chakra-ui/react";
 import React, { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   FaArrowRight,
+  FaCamera,
   FaCheck,
   FaImage,
   FaInfoCircle,
@@ -43,6 +45,8 @@ import keyGetter from "../../utils/helpers/keyGetter";
 import KeyMaker from "../../utils/helpers/keyMaker";
 import { ImageKeyContext } from "../../utils/providers/ImageKey.provider";
 import { UserContext } from "../../utils/providers/User.provider";
+import RandomImageCard from "./RandomImage.modal";
+import TakeImage from "./TakeImage.modal";
 
 export default function NewImageKey({ isOpen, onClose }: any) {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
@@ -50,6 +54,8 @@ export default function NewImageKey({ isOpen, onClose }: any) {
   const [rulesChecked, setRulesChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(undefined);
+  const [showRandomImageModal, setShowRandomImageModal] = useState(false);
+  const [showTakePhotoModal, setTakePhotoModal] = useState(false);
   const { user } = useContext(UserContext);
 
   const rulesCheckboxRef: React.LegacyRef<HTMLInputElement> | undefined =
@@ -134,6 +140,18 @@ export default function NewImageKey({ isOpen, onClose }: any) {
       }}
       size="4xl"
     >
+      {showRandomImageModal && (
+        <RandomImageCard
+          isOpen={showRandomImageModal}
+          onClose={() => setShowRandomImageModal(false)}
+        />
+      )}
+      {showTakePhotoModal && (
+        <TakeImage
+          isOpen={showTakePhotoModal}
+          onClose={() => setTakePhotoModal(false)}
+        />
+      )}
       <ModalOverlay />
       <ModalContent rounded={{ base: "none", md: "xl" }}>
         <ModalHeader>
@@ -310,9 +328,11 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     p="4"
                   >
                     {imageKey?.fileData ? (
-                      <Text color="gray.600">{imageKey?.fileData?.name}</Text>
+                      <Text isTruncated color="gray.600">
+                        {imageKey?.fileData?.name}
+                      </Text>
                     ) : (
-                      <Text>Drop/Upload your image</Text>
+                      <Text isTruncated>Drop/Upload your image</Text>
                     )}
                   </Box>
                   {error && (
@@ -335,7 +355,18 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                         </Button>
                       </MenuButton>
                       <MenuList>
-                        <MenuItem>Generate a random image</MenuItem>
+                        <MenuItem onClick={() => setShowRandomImageModal(true)}>
+                          Generate a random image{" "}
+                          <Badge ml="2">Experimental</Badge>
+                        </MenuItem>
+                        <MenuItem
+                          icon={<FaCamera />}
+                          onClick={() => {
+                            setTakePhotoModal(true);
+                          }}
+                        >
+                          Take a photo <Badge ml="2">Experimental</Badge>
+                        </MenuItem>
                       </MenuList>
                     </Menu>
 
@@ -355,30 +386,28 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                   </Flex>
                 </Box>
                 <Divider filter="brightness(80%)" mt="5" />
-                <UnorderedList
-                  color="blue.500"
-                  px={{ md: "10" }}
-                  mt="5"
-                  fontSize="sm"
-                >
-                  <ListItem>
-                    <Text>
-                      The image should be unique. You cant change it afterwards
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    You should not share it with anyone unless you want someone
-                    to access your vault.
-                  </ListItem>
-                  <ListItem>
-                    Use our key transfer protocol to restrict data loss which
-                    can cause account loss.
-                  </ListItem>
+                <Box px={{ md: "10" }}>
+                  <UnorderedList color="blue.500" mt="5" fontSize="sm">
+                    <ListItem>
+                      <Text>
+                        The image should be unique. You cant change it
+                        afterwards
+                      </Text>
+                    </ListItem>
+                    <ListItem>
+                      You should not share it with anyone unless you want
+                      someone to access your vault.
+                    </ListItem>
+                    <ListItem>
+                      Use our key transfer protocol to restrict data loss which
+                      can cause account loss.
+                    </ListItem>
 
-                  <ListItem>
-                    We promise we will never save your key on our server. You
-                    should save your key somewhere safe.
-                  </ListItem>
+                    <ListItem>
+                      We promise we will never save your key on our server. You
+                      should save your key somewhere safe.
+                    </ListItem>
+                  </UnorderedList>
                   <Checkbox
                     ref={rulesCheckboxRef}
                     color="black"
@@ -388,7 +417,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                   >
                     I&apos;ve read the rules
                   </Checkbox>
-                </UnorderedList>
+                </Box>
               </>
             )}
             {step === 2 && (
@@ -427,7 +456,11 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                   </Box>
                   <Text>
                     Visit{" "}
-                    <Link isExternal href="https://faucet.polygon.technology">
+                    <Link
+                      textDecoration="underline"
+                      isExternal
+                      href="https://faucet.polygon.technology"
+                    >
                       https://faucet.polygon.technology/
                     </Link>{" "}
                     to get free test MATIC
