@@ -12,6 +12,8 @@ import { FileProvider } from "../utils/providers/File.provider";
 import { QueriedFilesProvider } from "../utils/providers/QueriedFiles.provider";
 import { StorageProvider } from "../utils/providers/Database.provider";
 
+import { NextSeo } from "next-seo";
+
 function App({ Component, pageProps }: AppProps) {
   const supportedChainIds = [config.chainId];
   /**
@@ -36,26 +38,52 @@ function App({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThirdwebWeb3Provider
-      connectors={connectors}
-      supportedChainIds={supportedChainIds}
-    >
-      <ChakraProvider theme={theme}>
-        <UserProvider>
-          <PageWrapper>
-            <ImageKeyProvider>
-              <FileProvider>
-                <QueriedFilesProvider>
-                  <StorageProvider>
-                    <Component {...pageProps} />
-                  </StorageProvider>
-                </QueriedFilesProvider>
-              </FileProvider>
-            </ImageKeyProvider>
-          </PageWrapper>
-        </UserProvider>
-      </ChakraProvider>
-    </ThirdwebWeb3Provider>
+    <>
+      <NextSeo
+        title="Vault3 | Your Safest Decentralized Vault"
+        description="Secure your passwords, images, documents and much more on-chain with Vault3."
+        defaultTitle="Vault3 | Your Safest Decentralized Vault"
+        canonical="https://vault3.vercel.app"
+        openGraph={{
+          url: "https://vault3.vercel.app",
+          title: "Vault3 | Your Safest Decentralized Vault",
+          description: "Secure your passwords, images, documents and much more on-chain with Vault3.",
+          images: [
+            {
+              url: "/assets/art.png",
+              alt: "Vault3",
+              type: "image/png",
+            },
+          ],
+        }}
+        additionalMetaTags={[
+          {
+            property: "keywords",
+            content: "web3, vault, decentralized, storage, hackathon, data, vault3, drive, cloud, thirdweb, metamask, files, blockchain storage, blockchain, on-chain storage, on-chain vault, on-chain, chain, safest, safe, passwords, images, documents, files",
+          },
+        ]}
+      />
+      <ThirdwebWeb3Provider
+        connectors={connectors}
+        supportedChainIds={supportedChainIds}
+      >
+        <ChakraProvider theme={theme}>
+          <UserProvider>
+            <PageWrapper>
+              <ImageKeyProvider>
+                <FileProvider>
+                  <QueriedFilesProvider>
+                    <StorageProvider>
+                      <Component {...pageProps} />
+                    </StorageProvider>
+                  </QueriedFilesProvider>
+                </FileProvider>
+              </ImageKeyProvider>
+            </PageWrapper>
+          </UserProvider>
+        </ChakraProvider>
+      </ThirdwebWeb3Provider>
+    </>
   );
 }
 

@@ -34,6 +34,7 @@
     "hardhat": "^2.8.2",
     "image-to-base64": "^2.2.0",
     "next": "12.0.7",
+    "next-seo": "^4.28.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.2",
