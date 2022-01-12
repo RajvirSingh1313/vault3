@@ -58,6 +58,9 @@ function App({ Component, pageProps }: AppProps) {
             },
           ],
         }}
+        twitter={{
+          cardType: "summary_large_image",
+        }}
         additionalMetaTags={[
           {
             property: "keywords",
