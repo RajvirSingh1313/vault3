@@ -40,18 +40,18 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <NextSeo
-        title="Vault3"
-        description="The safest and decentralised vault built!"
-        defaultTitle="Vault3"
+        title="Vault3 | Your Safest Decentralized Vault"
+        description="Secure your passwords, images, documents and much more on-chain with Vault3."
+        defaultTitle="Vault3 | Your Safest Decentralized Vault"
         canonical="https://vault3.vercel.app"
         openGraph={{
           url: "https://vault3.vercel.app",
-          title: "Vault3",
-          description: "The safest and decentralised vault built!",
+          title: "Vault3 | Your Safest Decentralized Vault",
+          description: "Secure your passwords, images, documents and much more on-chain with Vault3.",
           images: [
             {
-              url: "/assests/vault_art.png",
-              alt: "Og Image",
+              url: "/assets/vault_art.png",
+              alt: "Vault3",
               type: "image/png",
             },
           ],
@@ -59,7 +59,7 @@ function App({ Component, pageProps }: AppProps) {
         additionalMetaTags={[
           {
             property: "keywords",
-            content: "web3, vault, decentralised, storage, hackathon, data",
+            content: "web3, vault, decentralized, storage, hackathon, data, vault3, drive, cloud, thirdweb, metamask, files, blockchain storage, blockchain, on-chain storage, on-chain vault, on-chain, chain, safest, safe, passwords, images, documents, files",
           },
         ]}
       />
