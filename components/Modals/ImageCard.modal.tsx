@@ -10,6 +10,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Link,
+  Flex,
 } from "@chakra-ui/react";
 import fileSize from "filesize";
 import React, { useEffect, useState } from "react";
