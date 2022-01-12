@@ -52,6 +52,8 @@ function App({ Component, pageProps }: AppProps) {
           images: [
             {
               url: "/assets/embed.png",
+              width: 1280,
+              height: 720,
               alt: "Vault3 | Your Safest Decentralized Vault",
             },
           ],
