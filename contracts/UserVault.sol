@@ -23,9 +23,15 @@ contract UserVault {
         string image_type;
     }
 
+    struct Document {
+        string name;
+        string document_type;
+    }
+
     mapping(address => File[]) private files;
     mapping(string => Password) private passwords;
     mapping(string => Image) private images;
+    mapping(string => Document) private documents;
 
     function getFiles() public view returns (File[] memory) {
         return files[msg.sender];
@@ -149,5 +155,52 @@ contract UserVault {
         delete files[msg.sender][index];
         Image memory image;
         images[uid] = image;
+    }
+
+    //Document CRUD
+    function createDocument(
+        string memory uid,
+        string memory name,
+        string memory document_type,
+        string memory size
+    ) external payable {
+        //creating new image object
+        Document storage document = documents[uid];
+        document.name = name;
+        document.document_type = document_type;
+
+        //creating new file object
+        File memory file;
+        file.owner = msg.sender;
+        file.name = name;
+        file.uid = uid;
+        file.file_type = "document";
+        file.size = size;
+
+        //pushing the new file to user db
+        files[msg.sender].push(file);
+    }
+
+    function getDocument(string memory uid)
+        public
+        view
+        returns (Document memory)
+    {
+        return documents[uid];
+    }
+
+    function deleteDocument(string memory uid) external payable {
+        uint256 index = 0;
+        for (uint256 i = 0; i < files[msg.sender].length; i++) {
+            if (
+                keccak256(bytes(files[msg.sender][i].uid)) ==
+                keccak256(bytes(uid))
+            ) {
+                index = i;
+            }
+        }
+        delete files[msg.sender][index];
+        Document memory document;
+        documents[uid] = document;
     }
 }

@@ -48,8 +48,9 @@ import { UserContext } from "../../utils/providers/User.provider";
 import CryptoJs from "crypto-js";
 import { Copy } from "react-feather";
 import b64toBlob from "../../utils/helpers/blobUrl";
+import { saveAs } from "file-saver";
 
-export default function ImageCard({ isOpen, onClose, image }: any) {
+export default function ImageCard({ isOpen, onClose, image, name }: any) {
   const [url, setUrl] = useState<any>(undefined);
   const getBlob = async () => {
     const url = await b64toBlob(image);
@@ -77,9 +78,26 @@ export default function ImageCard({ isOpen, onClose, image }: any) {
         <ModalBody>
           <Image mx="auto" src={image} rounded="xl" my="1" alt="image" />
           {url && (
-            <Link href={url} isExternal color="white" fontSize="sm" mx="2">
-              Open original
-            </Link>
+            <Flex align="center" fontSize="sm" experimental_spaceX="2">
+              <Link
+                href={url}
+                isExternal
+                color="whiteAlpha.700"
+                _hover={{ color: "white", textDecoration: "underline" }}
+                mx="2"
+              >
+                Open original
+              </Link>
+              <Link
+                onClick={() => {
+                  saveAs(url, name);
+                }}
+                color="whiteAlpha.700"
+                _hover={{ color: "white", textDecoration: "underline" }}
+              >
+                Download
+              </Link>
+            </Flex>
           )}
         </ModalBody>
       </ModalContent>

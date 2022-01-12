@@ -9,7 +9,7 @@ const config = {
         abi: KeyRegistrar.abi
     },
     userVault: {
-        address: "0x2cADf8B6aEd642dB33310Bb81ac870C058916D49",
+        address: "0xd0D33121fDA87Abf87BbF428D27b429a1C771eEB",
         abi: UserVault.abi
     }
 }

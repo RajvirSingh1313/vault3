@@ -36,6 +36,8 @@ import CryptoJs from "crypto-js";
 import ImageCard from "../Modals/ImageCard.modal";
 import imageDeleter from "../../utils/helpers/imageDeleter";
 import { QueriedFilesContext } from "../../utils/providers/QueriedFiles.provider";
+import documentDeleter from "../../utils/helpers/documentDeleter";
+import b64toBlob from "../../utils/helpers/blobUrl";
 
 export default function File({ file }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,6 +48,7 @@ export default function File({ file }: any) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [image, setImage] = useState<any>(undefined);
+  const [document, setDocument] = useState<any>(undefined);
 
   const getImage = async () => {
     setLoading(true);
@@ -61,9 +64,27 @@ export default function File({ file }: any) {
     setLoading(false);
   };
 
+  const getDocument = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("documents")
+      .select("hash")
+      .eq("uid", file.uid)
+      .single();
+    const hash = CryptoJs.AES.decrypt(data.hash, user.address).toString(
+      CryptoJs.enc.Utf8
+    );
+    const url = await b64toBlob(hash);
+    setDocument(url);
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (file.file_type === FileType.IMAGE) {
       getImage();
+    }
+    if (file.file_type === FileType.DOCUMENT) {
+      getDocument();
     }
   }, [files, queriedFiles]);
 
@@ -98,12 +119,22 @@ export default function File({ file }: any) {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           image={image}
+          name={file.name}
         />
       )}
       <AspectRatio
         ratio={188 / 88}
         w="full"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          console.log(file);
+          if (file.file_type === FileType.DOCUMENT) {
+            if (!loading) {
+              window.open(document, "_blank");
+            }
+          } else {
+            setIsModalOpen(true);
+          }
+        }}
       >
         {file.file_type === FileType.IMAGE ? (
           <>
@@ -114,10 +145,16 @@ export default function File({ file }: any) {
             )}
           </>
         ) : (
-          <Image
-            src={`assets/${file.file_type}_card.svg`}
-            alt={file.file_type}
-          />
+          <>
+            {!loading ? (
+              <Image
+                src={`assets/${file.file_type}_card.svg`}
+                alt={file.file_type}
+              />
+            ) : (
+              <Skeleton />
+            )}
+          </>
         )}
       </AspectRatio>
       <Box
@@ -131,9 +168,22 @@ export default function File({ file }: any) {
         borderColor="gray.300"
       >
         <Flex justify="space-between">
-          <Box onClick={() => setIsModalOpen(true)}>
+          <Box
+            onClick={() => {
+              console.log(file);
+              if (file.file_type === FileType.DOCUMENT) {
+                if (!loading) {
+                  window.open(document, "_blank");
+                }
+              } else {
+                setIsModalOpen(true);
+              }
+            }}
+          >
             <Flex align="center" color="gray.500" experimental_spaceX="1">
-              <FaLink size="12px" />
+              <Box maxW="12px">
+                <FaLink size="12px" />
+              </Box>
               <Text
                 color="black"
                 fontWeight="semibold"
@@ -169,7 +219,7 @@ export default function File({ file }: any) {
               </Box>
             </MenuButton>
             <MenuList>
-              {file.file_type !== FileType.IMAGE && (
+              {file.file_type === FileType.PASSWORD && (
                 <MenuItem
                   icon={<FaPen />}
                   onClick={() => {
@@ -189,6 +239,9 @@ export default function File({ file }: any) {
                   }
                   if (file.file_type === FileType.IMAGE) {
                     await imageDeleter(file.uid);
+                  }
+                  if (file.file_type === FileType.DOCUMENT) {
+                    await documentDeleter(file.uid);
                   }
                   const data: any = await fileGetter();
                   setFiles(data);

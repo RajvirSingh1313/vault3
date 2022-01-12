@@ -35,6 +35,7 @@ import NewImage from "../components/Modals/NewImage.modal";
 import { QueriedFilesContext } from "../utils/providers/QueriedFiles.provider";
 import { FileType } from "../types/fileTypes";
 import { Menu as MenuIcon } from "react-feather";
+import NewDocument from "../components/Modals/NewDocument.modal";
 
 const Dashboard: NextPage = () => {
   const { address, connectWallet } = useWeb3();
@@ -42,6 +43,7 @@ const Dashboard: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const [showNewPasswordModal, setShowNewPasswordModal] = useState(false);
   const [showNewImageModal, setShowNewImageModal] = useState(false);
+  const [showNewDocumentModal, setShowNewDocumentModal] = useState(false);
   const [query, setQuery] = useState("");
   const [typeContext, setTypeContext] = useState<any>(undefined);
   const [inputValue, setInputValue] = useState("");
@@ -110,17 +112,27 @@ const Dashboard: NextPage = () => {
         <Spinner />
       ) : (
         <>
-          <NewPassword
-            isOpen={showNewPasswordModal}
-            onClose={() => {
-              setShowNewPasswordModal(false);
-            }}
-          />
+          {showNewPasswordModal && (
+            <NewPassword
+              isOpen={showNewPasswordModal}
+              onClose={() => {
+                setShowNewPasswordModal(false);
+              }}
+            />
+          )}
           {showNewImageModal && (
             <NewImage
               isOpen={showNewImageModal}
               onClose={() => {
                 setShowNewImageModal(false);
+              }}
+            />
+          )}
+          {showNewDocumentModal && (
+            <NewDocument
+              isOpen={showNewDocumentModal}
+              onClose={() => {
+                setShowNewDocumentModal(false);
               }}
             />
           )}
@@ -441,11 +453,18 @@ const Dashboard: NextPage = () => {
                     subTitle="PNG, JPEG, GIF"
                   />
                 </Box>
-                <Box mr={{ md: "4" }} mb="4" w={{ base: "full", md: "auto" }}>
+                <Box
+                  mr={{ md: "4" }}
+                  mb="4"
+                  w={{ base: "full", md: "auto" }}
+                  onClick={() => {
+                    setShowNewDocumentModal(true);
+                  }}
+                >
                   <NewFile
                     accentColor="rgba(255, 146, 84, 0.2)"
                     accentColorMain="#FF925493"
-                    imageIcon="assets/text_file.svg"
+                    imageIcon="assets/document_file.svg"
                     title="Import file"
                     subTitle="All kind of files/documents"
                   />

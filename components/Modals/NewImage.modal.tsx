@@ -194,7 +194,13 @@ export default function NewImage({ isOpen, onClose }: any) {
                 transitionDuration="200ms"
                 _hover={{ borderColor: "brand.blue" }}
                 _focus={{ borderColor: "brand.blue" }}
-                borderColor={isDragActive ? "brand.blue" : "gray.400"}
+                borderColor={
+                  isDragActive
+                    ? "brand.blue"
+                    : error
+                    ? "red.500"
+                    : "blackAlpha.300"
+                }
                 p="4"
               >
                 {formData.byteData.length > 0 ? (

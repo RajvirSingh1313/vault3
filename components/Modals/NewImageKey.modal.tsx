@@ -299,6 +299,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     border="dashed 2px"
                     transitionDuration="200ms"
                     _hover={{ borderColor: "brand.blue" }}
+                    _focus={{ borderColor: "brand.blue" }}
                     borderColor={
                       isDragActive
                         ? "brand.blue"
