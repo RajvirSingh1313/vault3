@@ -25,6 +25,7 @@ import CreateNewImageKey from "../components/Modals/CreateNewImageKey.modal";
 import keyGetter from "../utils/helpers/keyGetter";
 import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
 import config from "../utils/helpers/config";
+import Head from "next/head";
 
 const Home: NextPage = () => {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
@@ -110,6 +111,9 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Vault3 | Your Safest Decentralized Vault</title>
+      </Head>
       <CreateNewImageKey
         isOpen={showNewKeyModal}
         onButtonClick={() => {

@@ -47,19 +47,20 @@ function App({ Component, pageProps }: AppProps) {
         openGraph={{
           url: "https://vault3.vercel.app",
           title: "Vault3 | Your Safest Decentralized Vault",
-          description: "Secure your passwords, images, documents and much more on-chain with Vault3.",
+          description:
+            "Secure your passwords, images, documents and much more on-chain with Vault3.",
           images: [
             {
-              url: "/assets/art.png",
-              alt: "Vault3",
-              type: "image/png",
+              url: "/assets/embed.png",
+              alt: "Vault3 | Your Safest Decentralized Vault",
             },
           ],
         }}
         additionalMetaTags={[
           {
             property: "keywords",
-            content: "web3, vault, decentralized, storage, hackathon, data, vault3, drive, cloud, thirdweb, metamask, files, blockchain storage, blockchain, on-chain storage, on-chain vault, on-chain, chain, safest, safe, passwords, images, documents, files",
+            content:
+              "web3, vault, decentralized, storage, hackathon, data, vault3, drive, cloud, thirdweb, metamask, files, blockchain storage, blockchain, on-chain storage, on-chain vault, on-chain, chain, safest, safe, passwords, images, documents, files",
           },
         ]}
       />

@@ -24,6 +24,7 @@ import {
   Divider,
   Link,
   Badge,
+  AspectRatio,
 } from "@chakra-ui/react";
 import React, { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -168,7 +169,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
             <Box
               position="relative"
               zIndex={1}
-              w={{ base: "62%", md: "76%" }}
+              w={{ base: "62%", md: "75%" }}
               h="1"
               mx="auto"
               display="flex"
@@ -328,9 +329,39 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     p="4"
                   >
                     {imageKey?.fileData ? (
-                      <Text isTruncated color="gray.600">
-                        {imageKey?.fileData?.name}
-                      </Text>
+                      <Flex
+                        align="center"
+                        experimental_spaceX="4"
+                        overflow="hidden"
+                      >
+                        {imageKey.byteData && (
+                          <Box position="relative">
+                            <AspectRatio ratio={1 / 1} w="10" h="10" minW="10">
+                              <Image
+                                w="full"
+                                src={String(imageKey.byteData)}
+                                rounded="full"
+                                alt="key"
+                              />
+                            </AspectRatio>
+                            <Box
+                              position="absolute"
+                              color="brand.blue"
+                              bottom="0"
+                              right="-1"
+                            >
+                              <FaKey />
+                            </Box>
+                          </Box>
+                        )}
+                        <Text
+                          isTruncated
+                          color="gray.600"
+                          wordBreak="break-all"
+                        >
+                          {imageKey?.fileData?.name}
+                        </Text>
+                      </Flex>
                     ) : (
                       <Text isTruncated>Drop/Upload your image</Text>
                     )}
@@ -409,6 +440,7 @@ export default function NewImageKey({ isOpen, onClose }: any) {
                     </ListItem>
                   </UnorderedList>
                   <Checkbox
+                    borderColor="blue.300"
                     ref={rulesCheckboxRef}
                     color="black"
                     mt="2"
