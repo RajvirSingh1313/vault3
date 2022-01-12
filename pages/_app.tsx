@@ -12,6 +12,8 @@ import { FileProvider } from "../utils/providers/File.provider";
 import { QueriedFilesProvider } from "../utils/providers/QueriedFiles.provider";
 import { StorageProvider } from "../utils/providers/Database.provider";
 
+import { NextSeo } from "next-seo";
+
 function App({ Component, pageProps }: AppProps) {
   const supportedChainIds = [config.chainId];
   /**
@@ -36,26 +38,52 @@ function App({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThirdwebWeb3Provider
-      connectors={connectors}
-      supportedChainIds={supportedChainIds}
-    >
-      <ChakraProvider theme={theme}>
-        <UserProvider>
-          <PageWrapper>
-            <ImageKeyProvider>
-              <FileProvider>
-                <QueriedFilesProvider>
-                  <StorageProvider>
-                    <Component {...pageProps} />
-                  </StorageProvider>
-                </QueriedFilesProvider>
-              </FileProvider>
-            </ImageKeyProvider>
-          </PageWrapper>
-        </UserProvider>
-      </ChakraProvider>
-    </ThirdwebWeb3Provider>
+    <>
+      <NextSeo
+        title="Vault3"
+        description="The safest and decentralised vault built!"
+        defaultTitle="Vault3"
+        canonical="https://vault3.vercel.app"
+        openGraph={{
+          url: "https://vault3.vercel.app",
+          title: "Vault3",
+          description: "The safest and decentralised vault built!",
+          images: [
+            {
+              url: "/assests/vault_art.png",
+              alt: "Og Image",
+              type: "image/png",
+            },
+          ],
+        }}
+        additionalMetaTags={[
+          {
+            property: "keywords",
+            content: "web3, vault, decentralised, storage, hackathon, data",
+          },
+        ]}
+      />
+      <ThirdwebWeb3Provider
+        connectors={connectors}
+        supportedChainIds={supportedChainIds}
+      >
+        <ChakraProvider theme={theme}>
+          <UserProvider>
+            <PageWrapper>
+              <ImageKeyProvider>
+                <FileProvider>
+                  <QueriedFilesProvider>
+                    <StorageProvider>
+                      <Component {...pageProps} />
+                    </StorageProvider>
+                  </QueriedFilesProvider>
+                </FileProvider>
+              </ImageKeyProvider>
+            </PageWrapper>
+          </UserProvider>
+        </ChakraProvider>
+      </ThirdwebWeb3Provider>
+    </>
   );
 }
 
