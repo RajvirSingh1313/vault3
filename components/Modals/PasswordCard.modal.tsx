@@ -14,11 +14,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Badge,
   Input,
   InputGroup,
   InputLeftElement,
-  Spinner,
   Checkbox,
   InputRightElement,
   Tooltip,
@@ -28,24 +26,14 @@ import fileSize from "filesize";
 import React, { useContext, useEffect, useState } from "react";
 import {
   FaCheck,
-  FaChevronRight,
-  FaCopy,
   FaLink,
-  FaPassport,
   FaRegCopy,
-  FaSave,
   FaStarOfLife,
   FaUser,
-  FaUserSecret,
-  FaWallet,
 } from "react-icons/fa";
-import fileGetter from "../../utils/helpers/fileGetter";
-import passwordCreator from "../../utils/helpers/passwordCreator";
 import passwordGetter from "../../utils/helpers/passwordGetter";
-import { FileContext } from "../../utils/providers/File.provider";
 import { UserContext } from "../../utils/providers/User.provider";
 import CryptoJs from "crypto-js";
-import { Copy } from "react-feather";
 
 export default function PasswordCard({ isOpen, onClose, file }: any) {
   const { user } = useContext(UserContext);

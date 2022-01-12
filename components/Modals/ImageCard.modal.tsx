@@ -2,51 +2,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useWeb3 } from "@3rdweb/hooks";
 import {
-  Button,
-  Flex,
   Image,
-  Text,
-  Box,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Badge,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Spinner,
-  Checkbox,
-  InputRightElement,
-  Tooltip,
-  useClipboard,
   Link,
 } from "@chakra-ui/react";
 import fileSize from "filesize";
-import React, { useContext, useEffect, useState } from "react";
-import {
-  FaCheck,
-  FaChevronRight,
-  FaCopy,
-  FaLink,
-  FaPassport,
-  FaRegCopy,
-  FaSave,
-  FaStarOfLife,
-  FaUser,
-  FaUserSecret,
-  FaWallet,
-} from "react-icons/fa";
-import fileGetter from "../../utils/helpers/fileGetter";
-import passwordCreator from "../../utils/helpers/passwordCreator";
-import passwordGetter from "../../utils/helpers/passwordGetter";
-import { FileContext } from "../../utils/providers/File.provider";
-import { UserContext } from "../../utils/providers/User.provider";
-import CryptoJs from "crypto-js";
-import { Copy } from "react-feather";
+import React, { useEffect, useState } from "react";
+
 import b64toBlob from "../../utils/helpers/blobUrl";
 import { saveAs } from "file-saver";
 

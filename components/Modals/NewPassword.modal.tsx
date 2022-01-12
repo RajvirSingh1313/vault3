@@ -14,7 +14,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Badge,
   Input,
   InputGroup,
   InputLeftElement,
@@ -22,14 +21,10 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import {
-  FaChevronRight,
   FaLink,
-  FaPassport,
   FaSave,
   FaStarOfLife,
   FaUser,
-  FaUserSecret,
-  FaWallet,
 } from "react-icons/fa";
 import fileGetter from "../../utils/helpers/fileGetter";
 import passwordCreator from "../../utils/helpers/passwordCreator";

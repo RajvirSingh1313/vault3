@@ -1,22 +1,16 @@
 import { useSwitchNetwork } from "@3rdweb/hooks";
 import {
-  Button,
   Flex,
-  Image,
   Text,
   Box,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Code,
   Spinner,
 } from "@chakra-ui/react";
-import { FaExchangeAlt, FaInfoCircle, FaWallet } from "react-icons/fa";
-import config from "../../utils/helpers/config";
 
 export default function DeletingFile() {
   return (

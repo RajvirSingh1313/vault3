@@ -14,28 +14,19 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Badge,
   Input,
   InputGroup,
   InputLeftElement,
   Spinner,
-  background,
 } from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext,  useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {
-  FaChevronRight,
   FaLink,
-  FaPassport,
   FaSave,
-  FaStarOfLife,
-  FaUser,
-  FaUserSecret,
-  FaWallet,
 } from "react-icons/fa";
 import getBase64 from "../../utils/helpers/base64";
 import fileGetter from "../../utils/helpers/fileGetter";
-import passwordCreator from "../../utils/helpers/passwordCreator";
 import { FileContext } from "../../utils/providers/File.provider";
 import { UserContext } from "../../utils/providers/User.provider";
 import imageCreator from "../../utils/helpers/imageCreator";
