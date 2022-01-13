@@ -154,6 +154,7 @@ export default function File({ file }: any) {
         roundedBottom="xl"
         p="2"
         px="4"
+        bg="gray.50"
         borderTop="none"
         borderColor="gray.300"
       >
