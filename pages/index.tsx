@@ -26,6 +26,7 @@ import keyGetter from "../utils/helpers/keyGetter";
 import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
 import config from "../utils/helpers/config";
 import Head from "next/head";
+import Steps from "../components/Sections/Steps.section";
 
 const Home: NextPage = () => {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
@@ -208,8 +209,8 @@ const Home: NextPage = () => {
             fontSize={{ md: "xl", lg: "2xl" }}
             textAlign="center"
           >
-            Secure your passwords, files, pizzas and much more just in a
-            ka-chow!
+            Secure your passwords, images, documents and much more on-chain with
+            vault3.
           </Text>
 
           <Flex
@@ -314,6 +315,7 @@ const Home: NextPage = () => {
           </AspectRatio>
         </Box>
       </Box>
+      <Steps />
     </>
   );
 };

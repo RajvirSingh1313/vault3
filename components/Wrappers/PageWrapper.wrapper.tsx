@@ -34,7 +34,7 @@ const PageWrapper: NextPage = ({ children }) => {
   }, [address, chainId]);
 
   return (
-    <Box bg="white" minH="100vh" color="brand.black">
+    <Box bg="gray.50" minH="100vh" color="brand.black">
       {isUnsupportedChainId && <SwitchNetwork />}
       <Box mx="auto">{children}</Box>
     </Box>

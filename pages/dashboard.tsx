@@ -36,10 +36,13 @@ import { FileType } from "../types/fileTypes";
 import { Menu as MenuIcon } from "react-feather";
 import NewDocument from "../components/Modals/NewDocument.modal";
 import DataStats from "../components/Sections/DataStats.section";
+import Head from "next/head";
+import { UserContext } from "../utils/providers/User.provider";
 
 const Dashboard: NextPage = () => {
   const { address, connectWallet } = useWeb3();
   const { files, setFiles } = useContext<any>(FileContext);
+  const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [showNewPasswordModal, setShowNewPasswordModal] = useState(false);
   const [showNewImageModal, setShowNewImageModal] = useState(false);
@@ -108,8 +111,21 @@ const Dashboard: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Vault | {user.address}</title>
+      </Head>
       {loading ? (
-        <Spinner />
+        <Flex
+          h="100vh"
+          w="100vw"
+          align="center"
+          justify="center"
+          experimental_spaceX="3"
+          color="brand.blue"
+        >
+          <Spinner w="16px" h="16px" />
+          <Text fontWeight="semibold">Verifying</Text>
+        </Flex>
       ) : (
         <>
           {showNewPasswordModal && (
