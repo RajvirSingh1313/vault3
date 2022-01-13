@@ -90,12 +90,12 @@ export default function Footer() {
               text="Support"
               href="mailto:123saptarshi.basu@gmail.com"
             />
-            <TextLink text="Product" href="#" />
+            <TextLink text="Product" href="https://www.indiehackers.com/product/vault3/" />
           </Grid>
           <Grid templateColumns="repeat(1,1fr)" gap="4">
-            <TextLink href="#steps" text="How to use" />
+            <NextLink href="#steps" passHref >How to use</NextLink>
 
-            <TextLink href="#" text="Team" />
+            <TextLink href="https://www.indiehackers.com/product/vault3/" text="Team" />
           </Grid>
         </Grid>
       </Flex>
