@@ -112,7 +112,7 @@ const Home: NextPage = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <Box bg="#F2F7FB">
+    <Box bg="#030A1C">
       <Head>
         <title>Vault3 | Your Safest Decentralized Vault</title>
       </Head>
@@ -151,16 +151,17 @@ const Home: NextPage = () => {
       <Image
         src="assets/ui_blur_2.png"
         position="absolute"
-        opacity={0.7}
+        opacity={0.56}
         top="20"
         left="0"
         zIndex={2}
         alt="ui-blur-two"
       />
       <Box position="relative" zIndex={3} maxW="6xl" mx="auto">
-        <Navigation />
+        <Navigation color="black" />
         <Box padding={{ base: "20px", md: "30px" }} />
         <Box
+          color="white"
           mb="20"
           px="6"
           mx="auto"
@@ -204,10 +205,10 @@ const Home: NextPage = () => {
           </Box>
           <Text
             px="4"
-            color="blackAlpha.700"
-            mt={{ base: "3", md: "1", lg: "0" }}
+            color="whiteAlpha.800"
+            mt={{ base: "3", md: "2", lg: "2" }}
             mb={{ base: "10", md: "8", lg: "8" }}
-            fontSize={{ md: "xl", lg: "2xl" }}
+            fontSize={{ md: "xl", lg: "xl" }}
             textAlign="center"
           >
             Secure your passwords, images, documents and much more on-chain with
@@ -216,9 +217,13 @@ const Home: NextPage = () => {
 
           <Flex
             maxW="lg"
+            mt="4"
             mx="auto"
             fontSize={{ lg: "lg" }}
+            rounded="2xl"
             justify="space-between"
+            bg="transparent"
+            boxShadow="0px 4px 147px rgba(49, 152, 254, 0.54)"
           >
             <input
               style={{ display: "none" }}
@@ -231,18 +236,14 @@ const Home: NextPage = () => {
               border="dashed 2px"
               borderRight="0px"
               transitionDuration="200ms"
-              _hover={{ borderColor: "brand.blue" }}
-              _focus={{ borderColor: "brand.blue" }}
+              _hover={{ borderColor: "#31C0FE" }}
+              _focus={{ borderColor: "#31C0FE" }}
               ref={DropzoneRef}
               outline="none"
               borderColor={
-                isDragActive
-                  ? "brand.blue"
-                  : error
-                  ? "red.500"
-                  : "blackAlpha.300"
+                isDragActive ? "#31C0FE" : error ? "red.500" : "whiteAlpha.400"
               }
-              bg="blackAlpha.100"
+              bg="rgba(105, 180, 255, 0.24)"
               py={{ base: "3", lg: "4" }}
               px={{ base: "5", lg: "6" }}
               pr={{ base: "2", md: "6" }}
@@ -252,14 +253,14 @@ const Home: NextPage = () => {
               experimental_spaceX="4"
               w="full"
             >
-              <Box color="brand.blue">
+              <Box color="#31C0FE">
                 <FaImage size="34px" />
               </Box>
               {imageKey ? (
                 <Text
                   noOfLines={1}
                   wordBreak="break-all"
-                  color="blackAlpha.800"
+                  color="whiteAlpha.900"
                 >
                   {imageKey?.fileData?.name}
                 </Text>
@@ -267,7 +268,7 @@ const Home: NextPage = () => {
                 <Text
                   noOfLines={1}
                   wordBreak="break-all"
-                  color="blackAlpha.500"
+                  color="whiteAlpha.600"
                 >
                   Drop your image key
                 </Text>
@@ -300,47 +301,58 @@ const Home: NextPage = () => {
             </Flex>
           </Flex>
 
-          <Box mt="2" textAlign="center">
+          <Box mt="4" textAlign="center">
             {error && (
               <Text display="block" fontSize="sm" color="red.500">
                 {error}
               </Text>
             )}
-            <Text display="inline" color="blackAlpha.500">
+            <Text display="inline" color="whiteAlpha.600">
               Not sure how it works?
             </Text>{" "}
-            <Link color="blackAlpha.600" href="/#steps">
+            <Link color="whiteAlpha.800" href="/#steps">
               Get started
             </Link>
           </Box>
-          <AspectRatio
-            ratio={16 / 9}
+          <Flex
             position="relative"
             w="full"
             maxW="800px"
-            mt="10"
+            h="fit-content"
+            justify="center"
+            className="gradient-box"
+            mt="14"
+            rounded="2xl"
           >
-            <div
-              style={{
-                paddingBottom: "56.25%",
-                borderRadius: "16px",
-                height: "0",
-              }}
+            <AspectRatio
+              ratio={16 / 9}
+              position="relative"
+              w="full"
+              rounded="xl"
+              overflow="hidden"
             >
-              <iframe
-                src="https://www.loom.com/embed/9c53fa5ef09043079a69ff855d188e87"
-                frameBorder="0"
-                allowFullScreen
+              <div
                 style={{
-                  position: "absolute",
-                  top: "0",
-                  left: "0",
-                  width: "100%",
-                  height: "100%",
+                  paddingBottom: "56.25%",
+
+                  height: "0",
                 }}
-              ></iframe>
-            </div>
-          </AspectRatio>
+              >
+                <iframe
+                  src="https://www.loom.com/embed/9c53fa5ef09043079a69ff855d188e87"
+                  frameBorder="0"
+                  allowFullScreen
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                ></iframe>
+              </div>
+            </AspectRatio>
+          </Flex>
         </Box>
       </Box>
       <Steps />
