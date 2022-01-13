@@ -15,7 +15,7 @@ html {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #08173b;
 }
 
 /* Handle */
@@ -26,4 +26,37 @@ html {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #0a85ff;
+}
+
+.gradient-box {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  box-sizing: border-box;
+
+  background: #000;
+  background-clip: padding-box;
+  /* !importanté */
+  border: solid 4px transparent;
+  /* !importanté */
+}
+.gradient-box:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: -5px;
+  /* !importanté */
+  border-radius: inherit;
+  /* !importanté */
+  background: linear-gradient(
+    93.51deg,
+    rgba(49, 151, 254, 0.459) -36.63%,
+    rgba(0, 227, 214, 0.29) 107.92%
+  ) !important;
 }

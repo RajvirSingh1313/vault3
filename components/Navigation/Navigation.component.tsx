@@ -19,7 +19,7 @@ import WalletConnect from "../Modals/WalletConnect.modal";
 import config from "../../utils/helpers/config";
 import Link from "next/link";
 
-export default function Navigation() {
+export default function Navigation({ color = "white" }) {
   const { disconnectWallet } = useWeb3();
 
   const { user } = useContext(UserContext);
@@ -45,10 +45,22 @@ export default function Navigation() {
       w="full"
       display="flex"
       transitionDuration="300ms"
-      bg={topOfPage ? "transparent" : "rgba(255, 255, 255, 0.43);"}
+      bg={
+        topOfPage
+          ? "transparent"
+          : color === "white"
+          ? "rgba(255, 255, 255, 0.43);"
+          : "rgba(4, 12, 30, 0.53)"
+      }
       backdropFilter={!topOfPage ? "blur(7px)" : ""}
       borderBottom={!topOfPage ? "1px" : "1px"}
-      borderColor={!topOfPage ? "blackAlpha.100" : "transparent"}
+      borderColor={
+        !topOfPage
+          ? color === "white"
+            ? "blackAlpha.100"
+            : "whiteAlpha.200"
+          : "transparent"
+      }
       justifyContent="center"
     >
       <WalletConnect isOpen={isOpen} onClose={onClose} />
@@ -57,13 +69,17 @@ export default function Navigation() {
         justify="space-between"
         w="full"
         alignItems="center"
-        p="3.5"
+        p="4"
         maxW="5xl"
       >
         <Link href="/" passHref>
           <Flex alignItems="center" experimental_spaceX="3" cursor="pointer">
             <Image src="assets/vault3_logo.svg" alt="vault3" w="9" h="9" />
-            <Flex fontSize="2xl" color="blackAlpha.900" alignItems="center">
+            <Flex
+              fontSize="2xl"
+              color={color == "white" ? "blackAlpha.900" : "white"}
+              alignItems="center"
+            >
               <Text fontFamily="heading" fontWeight="extrabold">
                 vault{" "}
               </Text>
@@ -91,13 +107,17 @@ export default function Navigation() {
           <Menu>
             <MenuButton>
               <Flex
-                bg="whiteAlpha.600"
+                bg={color === "white" ? "whiteAlpha.600" : "whiteAlpha.200"}
                 p="2"
                 rounded="full"
                 experimental_spaceX="2"
                 border="1px"
                 borderColor={
-                  user.chainId === config.chainId ? "blackAlpha.300" : "red.500"
+                  user.chainId === config.chainId
+                    ? color === "white"
+                      ? "blackAlpha.300"
+                      : "whiteAlpha.200"
+                    : "red.500"
                 }
               >
                 {user.chainId === config.chainId ? (
@@ -105,7 +125,12 @@ export default function Navigation() {
                 ) : (
                   <Image src="assets/eth.png" w="6" h="6" alt="eth-logo" />
                 )}
-                <Text maxW="100px" isTruncated={true} fontWeight="medium">
+                <Text
+                  maxW="100px"
+                  color={color == "white" ? "black" : "white"}
+                  isTruncated={true}
+                  fontWeight="medium"
+                >
                   {user.address}
                 </Text>
               </Flex>
