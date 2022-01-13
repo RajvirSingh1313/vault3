@@ -27,6 +27,7 @@ import { ConnectorOptions, useWeb3 } from "@3rdweb/hooks";
 import config from "../utils/helpers/config";
 import Head from "next/head";
 import Steps from "../components/Sections/Steps.section";
+import Footer from "../components/Navigation/Footer.component";
 
 const Home: NextPage = () => {
   const { imageKey, setImageKey } = useContext(ImageKeyContext);
@@ -111,7 +112,7 @@ const Home: NextPage = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <>
+    <Box bg="#F2F7FB">
       <Head>
         <title>Vault3 | Your Safest Decentralized Vault</title>
       </Head>
@@ -204,8 +205,8 @@ const Home: NextPage = () => {
           <Text
             px="4"
             color="blackAlpha.700"
-            mt={{ base: "3", md: "1", lg: "1" }}
-            mb={{ base: "10", md: "8", lg: "10" }}
+            mt={{ base: "3", md: "1", lg: "0" }}
+            mb={{ base: "10", md: "8", lg: "8" }}
             fontSize={{ md: "xl", lg: "2xl" }}
             textAlign="center"
           >
@@ -308,15 +309,44 @@ const Home: NextPage = () => {
             <Text display="inline" color="blackAlpha.500">
               Not sure how it works?
             </Text>{" "}
-            <Link color="blackAlpha.600">Get started</Link>
+            <Link color="blackAlpha.600" href="/#steps">
+              Get started
+            </Link>
           </Box>
-          <AspectRatio ratio={16 / 9} w="full" maxW="800px" mt="10">
-            <Image src="assets/art.png" rounded="xl" alt="hero-banner" />
+          <AspectRatio
+            ratio={16 / 9}
+            position="relative"
+            w="full"
+            maxW="800px"
+            mt="10"
+          >
+            <div
+              style={{
+                paddingBottom: "56.25%",
+                borderRadius: "16px",
+                height: "0",
+              }}
+            >
+              <iframe
+                src="https://www.loom.com/embed/9c53fa5ef09043079a69ff855d188e87"
+                frameBorder="0"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  left: "0",
+                  width: "100%",
+                  height: "100%",
+                }}
+              ></iframe>
+            </div>
           </AspectRatio>
         </Box>
       </Box>
       <Steps />
-    </>
+
+      <Footer />
+    </Box>
   );
 };
 

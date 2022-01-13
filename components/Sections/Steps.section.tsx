@@ -1,23 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Flex,
-  Box,
-  Text,
-  Badge,
-  Image,
-  Link,
-  Button,
-  Code,
-  Grid,
-} from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
-import { FaArrowLeft, FaDatabase, FaUser } from "react-icons/fa";
-import { StorageContext } from "../../utils/providers/Database.provider";
-import { FileContext } from "../../utils/providers/File.provider";
-import { UserContext } from "../../utils/providers/User.provider";
-import fileSize from "filesize";
-import config from "../../utils/helpers/config";
-
+import { Flex, Box, Text, Grid } from "@chakra-ui/react";
 export default function Steps() {
   const Step = ({ step, title, description }: any) => {
     return (
@@ -61,8 +43,12 @@ export default function Steps() {
 
   return (
     <Box
+      id="steps"
+      position="relative"
+      zIndex={2}
       w="full"
-      bg="linear-gradient(292.63deg, #00254A -20.23%, #000000 88.04%)"
+      opacity="0.97"
+      bg="linear-gradient(292.63deg, #00254A -20.23%, #000012 88.04%)"
       mx="auto"
       py="20"
     >
@@ -83,7 +69,7 @@ export default function Steps() {
         templateColumns={{
           base: "repeat(1,1fr)",
           sm: "repeat(1,1fr)",
-          md: "repeat(1,1fr)",
+          md: "repeat(2,1fr)",
           lg: "repeat(3, 1fr)",
         }}
         gap="10"

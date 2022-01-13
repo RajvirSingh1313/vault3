@@ -9,6 +9,10 @@
   width: 7px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: transparent;

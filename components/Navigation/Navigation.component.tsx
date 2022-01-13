@@ -45,10 +45,10 @@ export default function Navigation() {
       w="full"
       display="flex"
       transitionDuration="300ms"
-      bg={topOfPage ? "transparent" : "rgba(255, 255, 255, 0.73);"}
+      bg={topOfPage ? "transparent" : "rgba(255, 255, 255, 0.43);"}
       backdropFilter={!topOfPage ? "blur(7px)" : ""}
       borderBottom={!topOfPage ? "1px" : "1px"}
-      borderColor={!topOfPage ? "gray.200" : "transparent"}
+      borderColor={!topOfPage ? "blackAlpha.100" : "transparent"}
       justifyContent="center"
     >
       <WalletConnect isOpen={isOpen} onClose={onClose} />
@@ -60,7 +60,7 @@ export default function Navigation() {
         p="3.5"
         maxW="5xl"
       >
-        <Link href="/">
+        <Link href="/" passHref>
           <Flex alignItems="center" experimental_spaceX="3" cursor="pointer">
             <Image src="assets/vault3_logo.svg" alt="vault3" w="9" h="9" />
             <Flex fontSize="2xl" color="blackAlpha.900" alignItems="center">
