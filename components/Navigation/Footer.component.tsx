@@ -72,6 +72,7 @@ export default function Footer() {
           gap={{ md: "10", lg: "20" }}
           textAlign="center"
           fontSize="base"
+          color="white"
         >
           <Grid templateColumns="repeat(1,1fr)" gap="4">
             <TextLink
