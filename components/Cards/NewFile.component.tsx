@@ -16,13 +16,13 @@ export default function NewFile({
       pr="6"
       cursor="pointer"
       role="group"
-      bg="gray.100"
+      bg="gray.200"
       experimental_spaceX="4"
       rounded="xl"
       justify="space-between"
       border="1px"
       transitionDuration="200ms"
-      borderColor="gray.200"
+      borderColor="gray.300"
       _hover={{ borderColor: accentColorMain, bg: accentColor }}
       align="center"
     >

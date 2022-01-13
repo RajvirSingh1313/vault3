@@ -110,7 +110,7 @@ const Dashboard: NextPage = () => {
   };
 
   return (
-    <>
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Vault | {user.address}</title>
       </Head>
@@ -153,8 +153,8 @@ const Dashboard: NextPage = () => {
             />
           )}
           <Box position="relative" zIndex={3}>
-            <Box bg="gray.200">
-              <Navigation />
+            <Box bg="linear-gradient(90deg, #050F23 10.43%, #030A44 101.47%)">
+              <Navigation color="black" />
 
               <Box padding={{ base: "20px", md: "30px" }} />
               <Box display="flex" justifyContent="center" mt="8">
@@ -165,12 +165,14 @@ const Dashboard: NextPage = () => {
                   px={{ base: "4", md: "6", lg: "4" }}
                   maxW="5xl"
                 >
-                  <Flex align="center">
+                  <Flex mt="4" align="center">
                     <Text
                       mb="2"
-                      color="gray.500"
+                      color="whiteAlpha.700"
+                      _hover={{ color: "whiteAlpha.900" }}
                       minW="100px"
                       cursor="pointer"
+                      mr="1"
                       onClick={() => {
                         setTypeContext(undefined);
                         setQuery("");
@@ -225,7 +227,8 @@ const Dashboard: NextPage = () => {
                             mr="4"
                             minW={{ base: "30px", md: "300px", lg: "400px" }}
                             placeholder="Search"
-                            bg="white"
+                            bg=""
+                            color="black"
                             rounded="xl"
                             roundedBottom="none"
                             border="none"
@@ -340,7 +343,7 @@ const Dashboard: NextPage = () => {
                     display={{ base: "none", md: "flex" }}
                     align="center"
                     experimental_spaceX="6"
-                    color="gray.500"
+                    color="whiteAlpha.700"
                   >
                     <Text
                       onClick={() => {
@@ -355,6 +358,7 @@ const Dashboard: NextPage = () => {
                       _hover={{
                         borderBottom: "2px",
                         borderColor: "brand.blue",
+                        color: "whiteAlpha.900",
                       }}
                       borderBottom={
                         typeContext === FileType.IMAGE ? "2px" : "2px"
@@ -384,6 +388,7 @@ const Dashboard: NextPage = () => {
                       _hover={{
                         borderBottom: "2px",
                         borderColor: "brand.blue",
+                        color: "whiteAlpha.900",
                       }}
                       borderBottom={
                         typeContext === FileType.PASSWORD ? "2px" : "2px"
@@ -407,6 +412,7 @@ const Dashboard: NextPage = () => {
                       _hover={{
                         borderBottom: "2px",
                         borderColor: "brand.blue",
+                        color: "whiteAlpha.900",
                       }}
                       borderBottom={
                         typeContext === FileType.DOCUMENT ? "2px" : "2px"
@@ -637,7 +643,7 @@ const Dashboard: NextPage = () => {
           </Box>
         </>
       )}
-    </>
+    </Box>
   );
 };
 
