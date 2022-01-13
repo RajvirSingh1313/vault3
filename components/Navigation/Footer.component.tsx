@@ -1,8 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Flex, Image, Text, Box, Grid, Divider } from "@chakra-ui/react";
+import React from "react";
+import { Flex, Image, Text, Box, Grid, Divider, Link } from "@chakra-ui/react";
 import config from "../../utils/helpers/config";
-import Link from "next/link";
+import NextLink from "next/link";
 import { TwitterShareButton } from "react-twitter-embed";
+
+import type { TextLinkProps } from "../../types/props";
+
+const TextLink: React.FC<TextLinkProps> = ({ text, href }) => {
+  return (
+    <Link href={href} target="_blank" rel="noreferrer">
+      <Text color="white">{text}</Text>
+    </Link>
+  );
+};
 
 export default function Footer() {
   return (
@@ -28,7 +39,7 @@ export default function Footer() {
         py="16"
         maxW="5xl"
       >
-        <Link href="/" passHref>
+        <NextLink href="/" passHref>
           <Flex alignItems="center" experimental_spaceX="6" cursor="pointer">
             <Image
               src="assets/vault3_logo.svg"
@@ -49,7 +60,7 @@ export default function Footer() {
               </Text>
             </Flex>
           </Flex>
-        </Link>
+        </NextLink>
         <Grid
           mt={{ base: "10", md: "0" }}
           templateColumns={{
@@ -63,14 +74,10 @@ export default function Footer() {
           fontSize="base"
         >
           <Grid templateColumns="repeat(1,1fr)" gap="4">
-            <a
+            <TextLink
+              text="Contract"
               href={`https://mumbai.polygonscan.com/address/${config.userVault.address}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Text color="white">Contract</Text>
-            </a>
-
+            />
             <TwitterShareButton
               url={"https://vault3.vercel.app"}
               options={{
@@ -79,26 +86,16 @@ export default function Footer() {
             />
           </Grid>
           <Grid templateColumns="repeat(1,1fr)" gap="4">
-            <a
+            <TextLink
+              text="Support"
               href="mailto:123saptarshi.basu@gmail.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Text color="white">Support</Text>
-            </a>
-            <a href="#" target="_blank" rel="noreferrer">
-              <Text color="white">Product</Text>
-            </a>
+            />
+            <TextLink text="Product" href="#" />
           </Grid>
           <Grid templateColumns="repeat(1,1fr)" gap="4">
-            <Link href="/#steps" passHref>
-              <Text color="white" cursor="pointer">
-                How to use
-              </Text>
-            </Link>
-            <a href="#" target="_blank" rel="no noreferrer">
-              <Text color="white">Team</Text>
-            </a>
+            <TextLink href="#steps" text="How to use" />
+
+            <TextLink href="#" text="Team" />
           </Grid>
         </Grid>
       </Flex>
