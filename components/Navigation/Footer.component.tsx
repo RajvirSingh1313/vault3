@@ -94,7 +94,6 @@ export default function Footer() {
           </Grid>
           <Grid templateColumns="repeat(1,1fr)" gap="4">
             <NextLink href="#steps" passHref >How to use</NextLink>
-
             <TextLink href="https://www.indiehackers.com/product/vault3/" text="Team" />
           </Grid>
         </Grid>
