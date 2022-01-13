@@ -159,7 +159,7 @@ const Home: NextPage = () => {
       />
       <Box position="relative" zIndex={3} maxW="6xl" mx="auto">
         <Navigation color="black" />
-        <Box padding={{ base: "20px", md: "30px" }} />
+        <Box padding={{ base: "24px", md: "30px" }} />
         <Box
           color="white"
           mb="20"
