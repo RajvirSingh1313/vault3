@@ -74,7 +74,7 @@ export default function Footer() {
             <TwitterShareButton
               url={"https://vault3.vercel.app"}
               options={{
-                text: "#vault3",
+                text: "Vault3 | Your Safest Decentralized Vault\n#vault3\n",
               }}
             />
           </Grid>
@@ -86,11 +86,7 @@ export default function Footer() {
             >
               <Text color="white">Support</Text>
             </a>
-            <a
-              href="mailto:123saptarshi.basu@gmail.com"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="#" target="_blank" rel="noreferrer">
               <Text color="white">Product</Text>
             </a>
           </Grid>
@@ -100,11 +96,7 @@ export default function Footer() {
                 How to use
               </Text>
             </Link>
-            <a
-              href="mailto:123saptarshi.basu@gmail.com"
-              target="_blank"
-              rel="no noreferrer"
-            >
+            <a href="#" target="_blank" rel="no noreferrer">
               <Text color="white">Team</Text>
             </a>
           </Grid>
