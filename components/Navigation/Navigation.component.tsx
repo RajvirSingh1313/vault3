@@ -69,7 +69,7 @@ export default function Navigation({ color = "white" }) {
         justify="space-between"
         w="full"
         alignItems="center"
-        p="3.5"
+        p="4"
         maxW="5xl"
       >
         <Link href="/" passHref>
