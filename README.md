@@ -2,11 +2,11 @@
 
 ![embed](https://github.com/imsaptarshi/vault3/blob/main/public/assets/embed.png)
 
-<p align="center">
+<center>
 
 [Demo](https://vault3.vercel.app)
 
-</p>
+</center>
 
 ### What is Vault3?
 
