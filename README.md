@@ -37,6 +37,5 @@ And Vault3 is based on the idea of decentralisation to make the most secure pers
 
 ## Contracts
 
-Key Registrar https://mumbai.polygonscan.com/address/0x9d0DD96DbD54160de4bBe4B198529112727A9546
-
+Key Registrar https://mumbai.polygonscan.com/address/0x9d0DD96DbD54160de4bBe4B198529112727A9546 <br/>
 User Vault https://mumbai.polygonscan.com/address/0xd0D33121fDA87Abf87BbF428D27b429a1C771eEB
