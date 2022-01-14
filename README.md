@@ -1,5 +1,30 @@
-# How to test
+# Vault3 | Your Safest Decentralised Vault
 
-1.  Run `npx hardhat run scripts/deploy.js --network localhost`, copy the address in the console
-2.  Go to utils/helpers/config.ts and change KeyRegistrar address to the address you copied
-3.  Run `npx hardhat node` copy one of the private key, and import it in metamask and start using the app, if u face errors while key uploading change the private key to another and try again
+![embed](https://github.com/imsaptarshi/vault3/blob/main/public/assets/embed.png)
+
+### What is Vault3?
+
+Vault3 is a decentralised vault to store all your private data, secured on the blockchain. Use an image as your private key.
+
+### The Idea:
+
+In this modern world of technology, our data is in the hands of many big companies. Web 3.0 introduces the concept of decentralisation, in short, the flow and storage of data, without the need of any central authority. 
+
+And Vault3 is based on the idea of decentralisation to make the most secure personal vault for others.
+
+### Features:
+
+- Use an image as a private key for your vault.
+
+- All kind of files supported.
+- Store your passwords 
+- Get your Data Stats
+- Based on blockchain technology
+
+### Uses
+
+- NextJS [Frontend Framework]
+- Chakra UI [UI Framework]
+- Third Web
+- Supabase [to store hashed data]
+- External Javascript Libraries
