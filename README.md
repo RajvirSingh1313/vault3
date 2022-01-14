@@ -11,7 +11,7 @@
 
 Vault3 is a decentralised vault to store all your private data, secured on the blockchain. Use an image as a key to your vault!
 
-Check out vault3 today https://vault3.vercel.app
+Check out vault3 today https://vault3.live
 
 ## 💡 The Idea
 
