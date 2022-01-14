@@ -180,7 +180,9 @@ export default function NewDocument({ isOpen, onClose }: any) {
                 p="4"
               >
                 {formData.byteData.length > 0 ? (
-                  <Text>{formData.name}</Text>
+                  <Text isTruncated wordBreak="break-all">
+                    {formData.name}
+                  </Text>
                 ) : (
                   <Text>Drop/Upload your file</Text>
                 )}
@@ -214,6 +216,7 @@ export default function NewDocument({ isOpen, onClose }: any) {
               _hover={{}}
               _focus={{}}
               _active={{}}
+              disabled={loading}
               bg="brand.blue"
               color="white"
               rounded="lg"

@@ -36,7 +36,6 @@ export default function TakeImage({ isOpen, onClose }: any) {
 
   const getBlob = async () => {
     const url = await b64toBlob(image);
-    console.log(url);
     setUrl(url);
   };
 

@@ -21,10 +21,8 @@ export default async function keyGetter(imageKey: any, address: string) {
                 if (data === "") {
                     accessStatus = AccessStatus.KEY_NOT_FOUND
                 } else if (res) {
-                    console.log("matched")
                     accessStatus = AccessStatus.KEY_MATCHED
                 } else {
-                    console.log("not matched")
                     accessStatus = AccessStatus.KEY_NOT_MATCHED
                 }
                 return {

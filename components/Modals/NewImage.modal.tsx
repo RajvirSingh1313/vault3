@@ -19,12 +19,9 @@ import {
   InputLeftElement,
   Spinner,
 } from "@chakra-ui/react";
-import React, { useCallback, useContext,  useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import {
-  FaLink,
-  FaSave,
-} from "react-icons/fa";
+import { FaLink, FaSave } from "react-icons/fa";
 import getBase64 from "../../utils/helpers/base64";
 import fileGetter from "../../utils/helpers/fileGetter";
 import { FileContext } from "../../utils/providers/File.provider";
@@ -228,6 +225,7 @@ export default function NewImage({ isOpen, onClose }: any) {
               leftIcon={loading ? <Spinner w="16px" h="16px" /> : <FaSave />}
               _hover={{}}
               _focus={{}}
+              disabled={loading}
               _active={{}}
               bg="brand.blue"
               color="white"

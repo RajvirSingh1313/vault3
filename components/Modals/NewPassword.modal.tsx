@@ -20,12 +20,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  FaLink,
-  FaSave,
-  FaStarOfLife,
-  FaUser,
-} from "react-icons/fa";
+import { FaLink, FaSave, FaStarOfLife, FaUser } from "react-icons/fa";
 import fileGetter from "../../utils/helpers/fileGetter";
 import passwordCreator from "../../utils/helpers/passwordCreator";
 import { FileContext } from "../../utils/providers/File.provider";
@@ -172,6 +167,7 @@ export default function NewPassword({ isOpen, onClose }: any) {
               _hover={{}}
               _focus={{}}
               _active={{}}
+              disabled={loading}
               bg="brand.blue"
               color="white"
               rounded="lg"

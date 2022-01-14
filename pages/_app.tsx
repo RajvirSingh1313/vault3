@@ -43,9 +43,9 @@ function App({ Component, pageProps }: AppProps) {
         title="Vault3 | Your Safest Decentralized Vault"
         description="Secure your passwords, images, documents and much more on-chain with Vault3."
         defaultTitle="Vault3 | Your Safest Decentralized Vault"
-        canonical="https://vault3.vercel.app"
+        canonical="https://vault3.live"
         openGraph={{
-          url: "https://vault3.vercel.app",
+          url: "https://vault3.live",
           title: "Vault3 | Your Safest Decentralized Vault",
           description:
             "Secure your passwords, images, documents and much more on-chain with Vault3.",

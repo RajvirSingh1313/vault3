@@ -80,7 +80,7 @@ export default function Footer() {
               href={`https://mumbai.polygonscan.com/address/${config.userVault.address}`}
             />
             <TwitterShareButton
-              url={"https://vault3.vercel.app"}
+              url={"https://vault3.live"}
               options={{
                 text: "Vault3 | Your Safest Decentralized Vault\n#vault3\n",
               }}
