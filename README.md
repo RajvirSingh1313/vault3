@@ -8,17 +8,17 @@
 
 </center>
 
-### What is Vault3?
+### ❓ What is Vault3? 
 
 Vault3 is a decentralised vault to store all your private data, secured on the blockchain. Use an image as your private key.
 
-### The Idea:
+### 💡 The Idea:
 
 In this modern world of technology, our data is in the hands of many big companies. Web 3.0 introduces the concept of decentralisation, in short, the flow and storage of data, without the need of any central authority.
 
 And Vault3 is based on the idea of decentralisation to make the most secure personal vault for others.
 
-### Features:
+### ⭐ Features:
 
 - Use an image as a private key for your vault.
 
@@ -27,7 +27,7 @@ And Vault3 is based on the idea of decentralisation to make the most secure pers
 - Get your Data Stats
 - Based on blockchain technology
 
-### Uses
+### 🌠 Uses
 
 - NextJS [Frontend Framework]
 - Chakra UI [UI Framework]
