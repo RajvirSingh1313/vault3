@@ -93,7 +93,7 @@ export default function Footer() {
             />
             <TextLink
               text="Product"
-              href="https://www.indiehackers.com/product/vault3/"
+              href="https://vault3.notion.site/Vault3-Synopsis-f5fc3951bd944cba95258d282690b016"
             />
           </Grid>
           <Grid templateColumns="repeat(1,1fr)" gap="4">
