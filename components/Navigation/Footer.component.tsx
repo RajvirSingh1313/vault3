@@ -91,19 +91,12 @@ export default function Footer() {
               text="Support"
               href="mailto:123saptarshi.basu@gmail.com"
             />
-            <TextLink
-              text="Product"
-              href="https://vault3.notion.site/Vault3-Synopsis-f5fc3951bd944cba95258d282690b016"
-            />
+            <TextLink text="Product" href="/wiki" />
           </Grid>
           <Grid templateColumns="repeat(1,1fr)" gap="4">
-            <NextLink href="#steps" passHref>
-              How to use
-            </NextLink>
-            <TextLink
-              href="https://www.indiehackers.com/product/vault3/"
-              text="Team"
-            />
+            <TextLink text="How to use" href="/guide" />
+
+            <TextLink href="/about" text="Team" />
           </Grid>
         </Grid>
       </Flex>

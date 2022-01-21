@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Flex, Box, Text, Grid } from "@chakra-ui/react";
+import { Flex, Box, Text, Grid, Link } from "@chakra-ui/react";
 export default function Steps() {
   const Step = ({ step, title, description }: any) => {
     return (
@@ -52,15 +52,17 @@ export default function Steps() {
       mx="auto"
       py="20"
     >
-      <Text
-        color="white"
-        align="center"
-        fontWeight="bold"
-        fontSize="4xl"
-        mb="10"
-      >
-        How it works
-      </Text>
+      <Box mb="10">
+        <Text color="white" align="center" fontWeight="bold" fontSize="4xl">
+          How it works
+        </Text>
+        <Text align="center" color="whiteAlpha.700" fontSize="sm">
+          Complete guide at{" "}
+          <Link href="/guide" color="white" ml="1" isExternal>
+            https://vault3.live/guide
+          </Link>
+        </Text>
+      </Box>
       <Grid
         mt="2"
         px="10"

@@ -148,7 +148,6 @@ export default function NewDocument({ isOpen, onClose }: any) {
                 style={{ display: "none" }}
                 {...getInputProps()}
                 type="file"
-                accept="application/*"
               />
               <Box
                 {...getRootProps()}
